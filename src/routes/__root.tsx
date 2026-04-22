@@ -5,8 +5,14 @@ import {
   createRootRouteWithContext,
 } from '@tanstack/react-router'
 import * as React from 'react'
+import {
+  DEFAULT_SITE_URL,
+  SITE_PATHS,
+} from '../../businessConfig'
 import type { QueryClient } from '@tanstack/react-query'
 import appCss from '~/styles/app.css?url'
+
+const siteUrl = import.meta.env.VITE_SITE_URL ?? DEFAULT_SITE_URL
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -36,6 +42,7 @@ export const Route = createRootRouteWithContext<{
     links: [
       { rel: 'stylesheet', href: appCss },
       { rel: 'icon', href: '/favicon.ico' },
+      { rel: 'alternate', type: 'application/xml', href: SITE_PATHS.sitemap },
     ],
   }),
   notFoundComponent: () => <div>Route not found</div>,
@@ -52,9 +59,15 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html>
+    <html lang="en">
       <head>
         <HeadContent />
+        <meta property="og:site_name" content="Laser Cuts" />
+        <meta name="application-name" content="Laser Cuts" />
+        <meta name="apple-mobile-web-app-title" content="Laser Cuts" />
+        <meta name="robots" content="index,follow" />
+        <meta name="format-detection" content="telephone=yes" />
+        <link rel="preconnect" href={siteUrl} />
       </head>
       <body>
         {children}

@@ -1,9 +1,42 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useMutation } from 'convex/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { api } from '../../convex/_generated/api'
-import { isQuoteService, quoteServiceValues } from '../../quoteOptions'
+import {
+  BASE_CUT_PRICE,
+  BUSINESS_EMAIL,
+  BUSINESS_LOCATION,
+  BUSINESS_NAME,
+  BUSINESS_PHONE,
+  BUSINESS_REGION,
+  DEFAULT_SITE_URL,
+  NEW_CUSTOMER_PRICE,
+  SITE_PATHS,
+} from '../../businessConfig'
+import { quoteServiceValues } from '../../quoteOptions'
+import { parseQuoteSubmission } from '../../quoteValidation'
 import type { FormEvent } from 'react'
+
+const siteUrl = import.meta.env.VITE_SITE_URL ?? DEFAULT_SITE_URL
+const canonicalUrl = new URL(SITE_PATHS.home, siteUrl).toString()
+const ogImageUrl = new URL(SITE_PATHS.ogImage, siteUrl).toString()
+const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LawnCare',
+  name: BUSINESS_NAME,
+  areaServed: BUSINESS_REGION,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Fort Wayne',
+    addressRegion: 'IN',
+    addressCountry: 'US',
+  },
+  telephone: BUSINESS_PHONE,
+  email: BUSINESS_EMAIL,
+  description:
+    'Affordable lawn mowing, edging, weed control, mulch, and cleanup services in Fort Wayne and surrounding areas.',
+  priceRange: `${NEW_CUSTOMER_PRICE}-${BASE_CUT_PRICE}+`,
+}
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -25,38 +58,103 @@ export const Route = createFileRoute('/')({
         content:
           'Reliable, clean, and affordable lawn mowing and outdoor services with simple pricing and quick quote requests.',
       },
+      {
+        property: 'og:type',
+        content: 'website',
+      },
+      {
+        property: 'og:url',
+        content: canonicalUrl,
+      },
+      {
+        property: 'og:image',
+        content: ogImageUrl,
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
+      {
+        name: 'twitter:title',
+        content: 'Laser Cuts | Lawn Care in Fort Wayne',
+      },
+      {
+        name: 'twitter:description',
+        content:
+          'Reliable, clean, and affordable lawn mowing and outdoor services with simple pricing and quick quote requests.',
+      },
+      {
+        name: 'twitter:image',
+        content: ogImageUrl,
+      },
+    ],
+    links: [
+      {
+        rel: 'canonical',
+        href: canonicalUrl,
+      },
     ],
   }),
   component: Home,
 })
 
 function Home() {
-  const phone = '260-442-6772'
-  const email = 'trey.lazercuts@gmail.com'
-
+  const phone = BUSINESS_PHONE
+  const email = BUSINESS_EMAIL
   const submitQuote = useMutation(api.quotes.submit)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [fingerprint, setFingerprint] = useState('')
+
+  useEffect(() => {
+    const storageKey = 'laser-cuts-quote-fingerprint'
+    const existingFingerprint = window.localStorage.getItem(storageKey)
+
+    if (existingFingerprint) {
+      setFingerprint(existingFingerprint)
+      return
+    }
+
+    const generatedFingerprint = window.crypto.randomUUID()
+
+    window.localStorage.setItem(storageKey, generatedFingerprint)
+    setFingerprint(generatedFingerprint)
+  }, [])
+
+  const getFingerprint = () => {
+    if (fingerprint) {
+      return fingerprint
+    }
+
+    const generatedFingerprint = window.crypto.randomUUID()
+
+    window.localStorage.setItem('laser-cuts-quote-fingerprint', generatedFingerprint)
+    setFingerprint(generatedFingerprint)
+    return generatedFingerprint
+  }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
     const formData = new FormData(e.currentTarget)
-    const service = formData.get('service')
-
-    if (typeof service !== 'string' || !isQuoteService(service)) {
-      setIsSubmitting(false)
-      alert('Please select a valid service.')
-      return
-    }
     
     try {
-      await submitQuote({
-        name: formData.get('name') as string,
-        address: formData.get('address') as string,
-        service,
-        message: formData.get('message') as string,
+      const submission = parseQuoteSubmission({
+        name: formData.get('name'),
+        address: formData.get('address'),
+        service: formData.get('service'),
+        message: formData.get('message'),
+        fingerprint:
+          (typeof formData.get('fingerprint') === 'string'
+            ? formData.get('fingerprint')
+            : '') || getFingerprint(),
+        honeypot:
+          typeof formData.get('website') === 'string'
+            ? formData.get('website')
+            : '',
       })
+
+      await submitQuote(submission)
       setSubmitted(true)
       e.currentTarget.reset()
     } catch (error) {
@@ -69,18 +167,24 @@ function Home() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(localBusinessSchema),
+        }}
+      />
       {/* Top Utility Bar */}
       <div className="bg-green-700 text-white py-2 px-4 sm:px-6 lg:px-8 text-sm font-medium flex justify-center sm:justify-between items-center gap-4 text-center">
         <div className="flex items-center gap-4 flex-wrap justify-center sm:justify-start">
-          <a href={`tel:${phone.replace(/-/g, '')}`} className="hover:text-green-200 transition-colors flex items-center gap-1">
+          <a href={`tel:${BUSINESS_PHONE.replace(/-/g, '')}`} className="hover:text-green-200 transition-colors flex items-center gap-1">
             <span>📞</span> <span className="hidden xs:inline">Call:</span> {phone}
           </a>
-          <a href={`mailto:${email}`} className="hover:text-green-200 transition-colors flex items-center gap-1">
+          <a href={`mailto:${BUSINESS_EMAIL}`} className="hover:text-green-200 transition-colors flex items-center gap-1">
             <span>✉️</span> <span className="hidden xs:inline">Email:</span> {email}
           </a>
         </div>
         <div className="hidden sm:block font-bold tracking-wide uppercase text-xs">
-          Starting at just $40 per cut
+          Starting at just {BASE_CUT_PRICE} per cut
         </div>
       </div>
 
@@ -92,7 +196,7 @@ function Home() {
             <span className="text-xl font-black tracking-tighter text-gray-900 uppercase italic">Laser Cuts</span>
           </div>
           <div className="flex items-center gap-6">
-            <a href={`tel:${phone.replace(/-/g, '')}`} className="hidden md:block text-lg font-bold text-green-700 hover:text-green-800 transition-colors">
+            <a href={`tel:${BUSINESS_PHONE.replace(/-/g, '')}`} className="hidden md:block text-lg font-bold text-green-700 hover:text-green-800 transition-colors">
               {phone}
             </a>
             <button 
@@ -118,10 +222,10 @@ function Home() {
             </div>
             <h1 className="text-5xl font-black tracking-tighter sm:text-8xl mb-6 uppercase italic leading-[0.9]">
               Laser Sharp Cuts <br />
-              <span className="text-green-400">Starting at $40</span>
+              <span className="text-green-400">Starting at {BASE_CUT_PRICE}</span>
             </h1>
             <p className="mx-auto max-w-2xl text-xl text-gray-300 mb-10 font-medium leading-relaxed">
-              Reliable, clean, and affordable lawn mowing in Fort Wayne and surrounding areas. We treat your yard like our own masterpiece.
+              Reliable, clean, and affordable lawn mowing in {BUSINESS_LOCATION} and surrounding areas. We treat your yard like our own masterpiece.
             </p>
             <div className="flex flex-col sm:flex-row items-start justify-center gap-6">
               <div className="w-full sm:w-auto flex flex-col gap-3">
@@ -140,7 +244,7 @@ function Home() {
               </div>
               
               <div className="w-full sm:w-auto flex flex-col gap-3">
-                <a href={`tel:${phone.replace(/-/g, '')}`} className="w-full rounded-full bg-white px-12 py-5 text-xl font-black text-green-800 shadow-xl hover:bg-gray-100 transition-all uppercase tracking-tighter text-center">
+                <a href={`tel:${BUSINESS_PHONE.replace(/-/g, '')}`} className="w-full rounded-full bg-white px-12 py-5 text-xl font-black text-green-800 shadow-xl hover:bg-gray-100 transition-all uppercase tracking-tighter text-center">
                   Call {phone}
                 </a>
                 <button 
@@ -160,7 +264,7 @@ function Home() {
             <div className="mb-16">
               <h2 className="text-4xl font-black text-gray-900 uppercase italic tracking-tighter mb-4">Simple Pricing</h2>
               <div className="inline-block rounded-full bg-green-600 px-8 py-3 text-white font-black text-lg shadow-md tracking-tight">
-                NEW CUSTOMER SPECIAL: $35 for your first cut! ✂️
+                NEW CUSTOMER SPECIAL: {NEW_CUSTOMER_PRICE} for your first cut! ✂️
               </div>
             </div>
             
@@ -172,7 +276,7 @@ function Home() {
                 </div>
                 <h3 className="text-3xl font-black text-gray-900 uppercase italic tracking-tighter">Basic Cut</h3>
                 <div className="mt-4 flex items-baseline text-gray-900">
-                  <span className="text-5xl font-black tracking-tighter">$40</span>
+                  <span className="text-5xl font-black tracking-tighter">{BASE_CUT_PRICE}</span>
                   <span className="ml-1 text-xl font-bold text-gray-500 tracking-tight">/cut</span>
                 </div>
                 <p className="mt-3 text-sm text-gray-500 font-bold italic">*Starting price for standard yards</p>
@@ -286,10 +390,10 @@ function Home() {
               <h2 className="text-6xl font-black uppercase italic tracking-tighter mb-6 leading-none">Get Your Free Quote</h2>
               <div className="mt-10 space-y-6">
                 <p className="text-2xl font-black uppercase tracking-tight flex items-center justify-center gap-4">
-                  <span>📱</span> Call or Text: <a href={`tel:${phone.replace(/-/g, '')}`} className="underline decoration-white/30 hover:decoration-white transition-all">{phone}</a>
+                    <span>📱</span> Call or Text: <a href={`tel:${BUSINESS_PHONE.replace(/-/g, '')}`} className="underline decoration-white/30 hover:decoration-white transition-all">{phone}</a>
                 </p>
                 <p className="text-2xl font-black tracking-tight flex items-center justify-center gap-4 break-all sm:break-normal px-4">
-                  <span>✉️</span> Email: <a href={`mailto:${email}`} className="underline decoration-white/30 hover:decoration-white transition-all text-lg sm:text-2xl">{email}</a>
+                  <span>✉️</span> Email: <a href={`mailto:${BUSINESS_EMAIL}`} className="underline decoration-white/30 hover:decoration-white transition-all text-lg sm:text-2xl">{email}</a>
                 </p>
               </div>
             </div>
@@ -308,6 +412,15 @@ function Home() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-y-8 sm:grid-cols-2 sm:gap-x-10 bg-white p-12 sm:p-20 rounded-[40px] shadow-2xl text-gray-900 border-b-[12px] border-green-700">
+                <input name="fingerprint" type="hidden" value={fingerprint} readOnly />
+                <input
+                  aria-hidden="true"
+                  autoComplete="off"
+                  className="hidden"
+                  name="website"
+                  tabIndex={-1}
+                  type="text"
+                />
                 <div className="sm:col-span-2 text-left">
                   <label className="block text-sm font-black text-green-700 uppercase tracking-widest mb-3 ml-2">Your Name</label>
                   <input name="name" required type="text" placeholder="John Doe" className="block w-full rounded-2xl border-4 border-gray-100 bg-gray-50 px-6 py-5 text-xl font-bold focus:border-green-600 focus:bg-white transition-all outline-none" />
@@ -345,7 +458,7 @@ function Home() {
                     {isSubmitting ? "Sending..." : "Submit Quote Request"}
                   </button>
                   <p className="mt-6 text-sm text-gray-400 font-bold italic">
-                    By submitting, Trey will be notified immediately at trey.lazercuts@gmail.com
+                    By submitting, Trey will be notified immediately at {BUSINESS_EMAIL}
                   </p>
                 </div>
               </form>

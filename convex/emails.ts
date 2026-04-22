@@ -1,7 +1,15 @@
+'use node'
+
 import { Resend } from 'resend'
 import { v } from 'convex/values'
-import { quoteServiceValues } from '../quoteOptions'
-import { action } from './_generated/server'
+import { BUSINESS_EMAIL, BUSINESS_NAME } from '../businessConfig'
+import {
+  EMAIL_RETRY_DELAYS_MS,
+  MAX_EMAIL_ATTEMPTS,
+  sanitizeEmailError,
+} from '../quoteValidation'
+import { internal } from './_generated/api'
+import { internalAction } from './_generated/server'
 
 function escapeHtml(value: string) {
   return value
@@ -12,34 +20,77 @@ function escapeHtml(value: string) {
     .replaceAll("'", '&#39;')
 }
 
-export const sendQuoteEmail = action({
+export const deliverQuoteEmail = internalAction({
   args: {
-    name: v.string(),
-    address: v.string(),
-    service: v.union(...quoteServiceValues.map((service) => v.literal(service))),
-    message: v.string(),
+    quoteId: v.id('quotes'),
+    attemptNumber: v.number(),
   },
   returns: v.null(),
-  handler: async (_, args) => {
+  handler: async (ctx, args) => {
+    const quote = await ctx.runQuery(internal.quotes.getForEmail, {
+      quoteId: args.quoteId,
+    })
+
+    if (!quote) {
+      console.error('Quote email skipped because quote was not found.', {
+        quoteId: args.quoteId,
+      })
+      return null
+    }
+
+    if (quote.emailStatus === 'sent') {
+      console.info('Quote email already sent. Skipping duplicate delivery.', {
+        quoteId: args.quoteId,
+      })
+      return null
+    }
+
     const resendApiKey = process.env.RESEND_API_KEY
+    const resendFromEmail =
+      process.env.RESEND_FROM_EMAIL ?? `${BUSINESS_NAME} <onboarding@resend.dev>`
+    const attemptTimestamp = Date.now()
+
+    await ctx.runMutation(internal.quotes.updateEmailTracking, {
+      quoteId: args.quoteId,
+      emailStatus: 'sending',
+      emailAttempts: args.attemptNumber,
+      lastEmailAttemptAt: attemptTimestamp,
+      lastEmailError: undefined,
+    })
 
     if (!resendApiKey) {
-      console.error('Missing RESEND_API_KEY environment variable.')
+      const errorMessage = 'Missing RESEND_API_KEY environment variable.'
+      console.error(errorMessage, { quoteId: args.quoteId })
+
+      await ctx.runMutation(internal.quotes.updateEmailTracking, {
+        quoteId: args.quoteId,
+        emailStatus: 'failed',
+        emailAttempts: args.attemptNumber,
+        lastEmailAttemptAt: attemptTimestamp,
+        lastEmailError: errorMessage,
+      })
+
       return null
+    }
+
+    if (resendFromEmail.includes('onboarding@resend.dev')) {
+      console.warn(
+        'Using the Resend onboarding sender. Configure RESEND_FROM_EMAIL with a verified domain for production deliverability.',
+      )
     }
 
     const resend = new Resend(resendApiKey)
 
     try {
-      const safeName = escapeHtml(args.name)
-      const safeAddress = escapeHtml(args.address)
-      const safeService = escapeHtml(args.service)
-      const safeMessage = escapeHtml(args.message).replaceAll('\n', '<br />')
+      const safeName = escapeHtml(quote.name)
+      const safeAddress = escapeHtml(quote.address)
+      const safeService = escapeHtml(quote.service)
+      const safeMessage = escapeHtml(quote.message).replaceAll('\n', '<br />')
 
       await resend.emails.send({
-        from: 'Laser Cuts <onboarding@resend.dev>',
-        to: 'trey.lazercuts@gmail.com',
-        subject: `New Quote Request from ${args.name}`,
+        from: resendFromEmail,
+        to: BUSINESS_EMAIL,
+        subject: `New Quote Request from ${quote.name}`,
         html: `
           <div style="font-family: sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
             <h1 style="color: #15803d; border-bottom: 2px solid #15803d; padding-bottom: 10px;">New Quote Request</h1>
@@ -55,10 +106,54 @@ export const sendQuoteEmail = action({
           </div>
         `,
       })
-      console.log('Email sent successfully to trey.lazercuts@gmail.com')
+
+      await ctx.runMutation(internal.quotes.updateEmailTracking, {
+        quoteId: args.quoteId,
+        emailStatus: 'sent',
+        emailAttempts: args.attemptNumber,
+        lastEmailAttemptAt: attemptTimestamp,
+        lastEmailError: undefined,
+      })
+
+      console.info('Quote email sent successfully.', {
+        quoteId: args.quoteId,
+        attempts: args.attemptNumber,
+      })
     } catch (error) {
-      console.error('Failed to send email:', error)
+      const errorMessage = sanitizeEmailError(error)
+
+      console.error('Quote email delivery failed.', {
+        quoteId: args.quoteId,
+        attempts: args.attemptNumber,
+        error: errorMessage,
+      })
+
+      await ctx.runMutation(internal.quotes.updateEmailTracking, {
+        quoteId: args.quoteId,
+        emailStatus: 'failed',
+        emailAttempts: args.attemptNumber,
+        lastEmailAttemptAt: attemptTimestamp,
+        lastEmailError: errorMessage,
+      })
+
+      if (args.attemptNumber < MAX_EMAIL_ATTEMPTS) {
+        const retryDelay =
+          EMAIL_RETRY_DELAYS_MS[args.attemptNumber - 1] ??
+          EMAIL_RETRY_DELAYS_MS[EMAIL_RETRY_DELAYS_MS.length - 1]
+
+        await ctx.scheduler.runAfter(retryDelay, internal.emails.deliverQuoteEmail, {
+          quoteId: args.quoteId,
+          attemptNumber: args.attemptNumber + 1,
+        })
+
+        console.info('Scheduled quote email retry.', {
+          quoteId: args.quoteId,
+          nextAttempt: args.attemptNumber + 1,
+          retryDelay,
+        })
+      }
     }
+
     return null
   },
 })

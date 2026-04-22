@@ -17,9 +17,16 @@ export const quoteServiceValues = [
 ] as const
 
 export const quoteStatusValues = ['pending', 'contacted', 'completed'] as const
+export const quoteEmailStatusValues = [
+  'queued',
+  'sending',
+  'sent',
+  'failed',
+] as const
 
 export type QuoteService = (typeof quoteServiceValues)[number]
 export type QuoteStatus = (typeof quoteStatusValues)[number]
+export type QuoteEmailStatus = (typeof quoteEmailStatusValues)[number]
 
 export function isQuoteService(value: string): value is QuoteService {
   return quoteServiceValues.includes(value as QuoteService)
