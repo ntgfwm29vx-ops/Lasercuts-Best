@@ -3,5 +3,11 @@
   "framework": "vite",
   "installCommand": "npm install",
   "buildCommand": "npx convex deploy --cmd-url-env-var-name VITE_CONVEX_URL --cmd \"npm run build\"",
-  "outputDirectory": "dist/client"
+  "outputDirectory": "dist/client",
+  "rewrites": [
+    {
+      "source": "/((?!assets/|favicon.ico|og-image.svg|robots.txt|sitemap.xml).*)",
+      "destination": "/index.html"
+    }
+  ]
 }
