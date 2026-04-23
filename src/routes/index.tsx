@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useMutation } from 'convex/react'
 import { useEffect, useState } from 'react'
 import { api } from '../../convex/_generated/api'
@@ -99,6 +99,7 @@ export const Route = createFileRoute('/')({
 })
 
 function Home() {
+  const navigate = useNavigate()
   const phone = BUSINESS_PHONE
   const email = BUSINESS_EMAIL
   const submitQuote = useMutation(api.quotes.submit)
@@ -155,8 +156,7 @@ function Home() {
       })
 
       await submitQuote(submission)
-      setSubmitted(true)
-      e.currentTarget.reset()
+      void navigate({ to: '/thank-you' })
     } catch (error) {
       console.error(error)
       alert('Something went wrong. Please call us directly!')
