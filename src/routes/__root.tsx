@@ -5,6 +5,7 @@ import {
   createRootRouteWithContext,
 } from '@tanstack/react-router'
 import * as React from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import {
   DEFAULT_SITE_URL,
   SITE_PATHS,
@@ -72,6 +73,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         {children}
         <Scripts />
+        <Analytics />
       </body>
     </html>
   )
