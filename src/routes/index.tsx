@@ -142,6 +142,8 @@ function Home() {
     try {
       const submission = parseQuoteSubmission({
         name: formData.get('name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
         address: formData.get('address'),
         service: formData.get('service'),
         message: formData.get('message'),
@@ -428,6 +430,14 @@ function Home() {
                 <div className="sm:col-span-2 text-left">
                   <label className="block text-sm font-black text-green-700 uppercase tracking-widest mb-3 ml-2">Service Address</label>
                   <input name="address" required type="text" placeholder="123 Main St, Fort Wayne" className="block w-full rounded-2xl border-4 border-gray-100 bg-gray-50 px-6 py-5 text-xl font-bold focus:border-green-600 focus:bg-white transition-all outline-none" />
+                </div>
+                <div className="text-left">
+                  <label className="block text-sm font-black text-green-700 uppercase tracking-widest mb-3 ml-2">Email Address</label>
+                  <input name="email" required type="email" inputMode="email" autoComplete="email" placeholder="you@example.com" className="block w-full rounded-2xl border-4 border-gray-100 bg-gray-50 px-6 py-5 text-xl font-bold focus:border-green-600 focus:bg-white transition-all outline-none" />
+                </div>
+                <div className="text-left">
+                  <label className="block text-sm font-black text-green-700 uppercase tracking-widest mb-3 ml-2">Phone Number</label>
+                  <input name="phone" required type="tel" inputMode="tel" autoComplete="tel" placeholder="260-442-6772" className="block w-full rounded-2xl border-4 border-gray-100 bg-gray-50 px-6 py-5 text-xl font-bold focus:border-green-600 focus:bg-white transition-all outline-none" />
                 </div>
                 <div className="sm:col-span-2 text-left">
                   <label className="block text-sm font-black text-green-700 uppercase tracking-widest mb-3 ml-2">Service Needed</label>

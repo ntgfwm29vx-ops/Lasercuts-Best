@@ -9,6 +9,8 @@ import {
 export default defineSchema({
   quotes: defineTable({
     name: v.string(),
+    email: v.string(),
+    phone: v.string(),
     address: v.string(),
     service: v.union(...quoteServiceValues.map((service) => v.literal(service))),
     message: v.string(),

@@ -3,6 +3,7 @@ import {
   MAX_ADDRESS_LENGTH,
   MAX_MESSAGE_LENGTH,
   MAX_NAME_LENGTH,
+  MAX_PHONE_LENGTH,
   MIN_SUBMISSION_INTERVAL_MS,
   isSubmissionRateLimited,
   parseQuoteSubmission,
@@ -13,6 +14,8 @@ describe('parseQuoteSubmission', () => {
   it('trims valid input and returns normalized values', () => {
     const result = parseQuoteSubmission({
       name: ' Trey Torres ',
+      email: ' Trey@example.com ',
+      phone: ' 260-442-6772 ',
       address: ' 123 Main St ',
       service: 'Basic Cut ($35 First Cut!)',
       message: ' Weekly service please. ',
@@ -22,6 +25,8 @@ describe('parseQuoteSubmission', () => {
 
     expect(result).toEqual({
       name: 'Trey Torres',
+      email: 'trey@example.com',
+      phone: '260-442-6772',
       address: '123 Main St',
       service: 'Basic Cut ($35 First Cut!)',
       message: 'Weekly service please.',
@@ -34,6 +39,8 @@ describe('parseQuoteSubmission', () => {
     expect(() =>
       parseQuoteSubmission({
         name: 'Trey',
+        email: 'trey@example.com',
+        phone: '260-442-6772',
         address: '123 Main St',
         service: 'Invalid service',
         message: 'Help',
@@ -47,6 +54,8 @@ describe('parseQuoteSubmission', () => {
     expect(() =>
       parseQuoteSubmission({
         name: 'Trey',
+        email: 'trey@example.com',
+        phone: '260-442-6772',
         address: '123 Main St',
         service: 'Basic Cut ($35 First Cut!)',
         message: 'Help',
@@ -60,9 +69,26 @@ describe('parseQuoteSubmission', () => {
     expect(() =>
       parseQuoteSubmission({
         name: 'x'.repeat(MAX_NAME_LENGTH + 1),
+        email: 'trey@example.com',
+        phone: '1'.repeat(MAX_PHONE_LENGTH + 1),
         address: 'y'.repeat(MAX_ADDRESS_LENGTH + 1),
         service: 'Basic Cut ($35 First Cut!)',
         message: 'z'.repeat(MAX_MESSAGE_LENGTH + 1),
+        fingerprint: 'client-fingerprint',
+        honeypot: '',
+      }),
+    ).toThrow()
+  })
+
+  it('rejects invalid email addresses', () => {
+    expect(() =>
+      parseQuoteSubmission({
+        name: 'Trey',
+        email: 'not-an-email',
+        phone: '260-442-6772',
+        address: '123 Main St',
+        service: 'Basic Cut ($35 First Cut!)',
+        message: 'Help',
         fingerprint: 'client-fingerprint',
         honeypot: '',
       }),

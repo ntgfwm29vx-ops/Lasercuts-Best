@@ -83,6 +83,8 @@ export const deliverQuoteEmail = internalAction({
 
     try {
       const safeName = escapeHtml(quote.name)
+      const safeEmail = escapeHtml(quote.email)
+      const safePhone = escapeHtml(quote.phone)
       const safeAddress = escapeHtml(quote.address)
       const safeService = escapeHtml(quote.service)
       const safeMessage = escapeHtml(quote.message).replaceAll('\n', '<br />')
@@ -95,6 +97,8 @@ export const deliverQuoteEmail = internalAction({
           <div style="font-family: sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
             <h1 style="color: #15803d; border-bottom: 2px solid #15803d; padding-bottom: 10px;">New Quote Request</h1>
             <p><strong>Name:</strong> ${safeName}</p>
+            <p><strong>Email:</strong> ${safeEmail}</p>
+            <p><strong>Phone:</strong> ${safePhone}</p>
             <p><strong>Address:</strong> ${safeAddress}</p>
             <p><strong>Service:</strong> ${safeService}</p>
             <p style="background: #f9f9f9; padding: 15px; border-radius: 5px; border-left: 4px solid #15803d;">

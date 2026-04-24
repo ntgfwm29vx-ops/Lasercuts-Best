@@ -13,6 +13,8 @@ import {
 export const submit = mutation({
   args: {
     name: v.string(),
+    email: v.string(),
+    phone: v.string(),
     address: v.string(),
     service: v.string(),
     message: v.string(),
@@ -50,6 +52,8 @@ export const submit = mutation({
 
     const quoteId = await ctx.db.insert('quotes', {
       name: submission.name,
+      email: submission.email,
+      phone: submission.phone,
       address: submission.address,
       service: submission.service,
       message: submission.message,
@@ -83,6 +87,8 @@ export const getForEmail = internalQuery({
     v.null(),
     v.object({
       name: v.string(),
+      email: v.string(),
+      phone: v.string(),
       address: v.string(),
       service: v.string(),
       message: v.string(),
@@ -99,6 +105,8 @@ export const getForEmail = internalQuery({
 
     return {
       name: quote.name,
+      email: quote.email,
+      phone: quote.phone,
       address: quote.address,
       service: quote.service,
       message: quote.message,

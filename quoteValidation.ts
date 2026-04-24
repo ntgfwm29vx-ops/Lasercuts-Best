@@ -4,6 +4,7 @@ import { quoteServiceValues } from './quoteOptions'
 export const MAX_NAME_LENGTH = 100
 export const MAX_ADDRESS_LENGTH = 200
 export const MAX_MESSAGE_LENGTH = 2000
+export const MAX_PHONE_LENGTH = 25
 export const MAX_EMAIL_ERROR_LENGTH = 500
 export const MIN_SUBMISSION_INTERVAL_MS = 60_000
 export const MAX_EMAIL_ATTEMPTS = 3
@@ -13,6 +14,8 @@ const quoteServiceSchema = z.enum(quoteServiceValues)
 
 export const quoteSubmissionSchema = z.object({
   name: z.string().trim().min(1).max(MAX_NAME_LENGTH),
+  email: z.string().trim().min(1).max(MAX_NAME_LENGTH).email(),
+  phone: z.string().trim().min(7).max(MAX_PHONE_LENGTH),
   address: z.string().trim().min(1).max(MAX_ADDRESS_LENGTH),
   service: quoteServiceSchema,
   message: z.string().trim().min(1).max(MAX_MESSAGE_LENGTH),
@@ -25,6 +28,8 @@ export type QuoteSubmission = z.infer<typeof quoteSubmissionSchema>
 export function normalizeQuoteSubmission(input: QuoteSubmission) {
   return {
     name: input.name.trim(),
+    email: input.email.trim().toLowerCase(),
+    phone: input.phone.trim(),
     address: input.address.trim(),
     service: input.service,
     message: input.message.trim(),
