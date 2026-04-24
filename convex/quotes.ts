@@ -105,8 +105,8 @@ export const getForEmail = internalQuery({
 
     return {
       name: quote.name,
-      email: quote.email,
-      phone: quote.phone,
+      email: quote.email ?? 'Not provided',
+      phone: quote.phone ?? 'Not provided',
       address: quote.address,
       service: quote.service,
       message: quote.message,
