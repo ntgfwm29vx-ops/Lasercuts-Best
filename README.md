@@ -29,6 +29,8 @@ Marketing site and quote intake flow for Laser Cuts, built with TanStack Start a
   Secret key used by Convex email delivery actions.
 - `RESEND_FROM_EMAIL`
   Verified sender address in Resend. Do not keep the onboarding sender for production.
+- `RESEND_TEXT_TO`
+  Optional SMS alert destination using your carrier email-to-text gateway. For AT&T, use `2604426772@txt.att.net`.
 
 ## Quote Flow
 
@@ -48,6 +50,7 @@ Marketing site and quote intake flow for Laser Cuts, built with TanStack Start a
 - Set `VITE_SITE_URL` to the real production domain.
 - Configure `RESEND_API_KEY` in Convex and your deployment environment.
 - Configure `RESEND_FROM_EMAIL` with a verified custom domain in Resend.
+- Configure `RESEND_TEXT_TO` if you want a text alert for every new quote.
 - Confirm `robots.txt`, `sitemap.xml`, canonical tags, and social preview metadata point at the final domain.
 - Run `npm run lint`
 - Run `npm run test`

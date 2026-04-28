@@ -2,7 +2,7 @@
 
 import { Resend } from 'resend'
 import { v } from 'convex/values'
-import { BUSINESS_EMAIL, BUSINESS_NAME } from '../businessConfig'
+import { BUSINESS_EMAIL, BUSINESS_NAME, BUSINESS_PHONE } from '../businessConfig'
 import {
   EMAIL_RETRY_DELAYS_MS,
   MAX_EMAIL_ATTEMPTS,
@@ -11,6 +11,8 @@ import {
 import { internal } from './_generated/api'
 import { internalAction } from './_generated/server'
 
+const ATT_SMS_GATEWAY_DOMAIN = 'txt.att.net'
+
 function escapeHtml(value: string) {
   return value
     .replaceAll('&', '&amp;')
@@ -18,6 +20,16 @@ function escapeHtml(value: string) {
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;')
+}
+
+function toSmsEmailAddress(phone: string) {
+  const digits = phone.replace(/\D/g, '')
+
+  if (digits.length !== 10) {
+    return null
+  }
+
+  return `${digits}@${ATT_SMS_GATEWAY_DOMAIN}`
 }
 
 export const deliverQuoteEmail = internalAction({
@@ -48,6 +60,8 @@ export const deliverQuoteEmail = internalAction({
     const resendApiKey = process.env.RESEND_API_KEY
     const resendFromEmail =
       process.env.RESEND_FROM_EMAIL ?? `${BUSINESS_NAME} <onboarding@resend.dev>`
+    const resendTextTo =
+      process.env.RESEND_TEXT_TO ?? toSmsEmailAddress(BUSINESS_PHONE)
     const attemptTimestamp = Date.now()
 
     await ctx.runMutation(internal.quotes.updateEmailTracking, {
@@ -110,6 +124,33 @@ export const deliverQuoteEmail = internalAction({
           </div>
         `,
       })
+
+      if (resendTextTo) {
+        const smsMessage = [
+          'New Laser Cuts quote',
+          `${quote.name} • ${quote.phone}`,
+          quote.service,
+          quote.address,
+        ].join('\n')
+
+        try {
+          await resend.emails.send({
+            from: resendFromEmail,
+            to: resendTextTo,
+            subject: 'New quote',
+            text: smsMessage,
+          })
+        } catch (error) {
+          console.error('Quote text alert failed.', {
+            quoteId: args.quoteId,
+            error: sanitizeEmailError(error),
+          })
+        }
+      } else {
+        console.warn('Skipping quote text alert because no SMS destination is configured.', {
+          quoteId: args.quoteId,
+        })
+      }
 
       await ctx.runMutation(internal.quotes.updateEmailTracking, {
         quoteId: args.quoteId,
