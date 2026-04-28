@@ -32,6 +32,37 @@ function toSmsEmailAddress(phone: string) {
   return `${digits}@${ATT_SMS_GATEWAY_DOMAIN}`
 }
 
+async function sendTelegramMessage(message: string) {
+  const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN
+  const telegramChatId = process.env.TELEGRAM_CHAT_ID
+
+  if (!telegramBotToken || !telegramChatId) {
+    return
+  }
+
+  const response = await fetch(
+    `https://api.telegram.org/bot${telegramBotToken}/sendMessage`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        chat_id: telegramChatId,
+        text: message,
+      }),
+    },
+  )
+
+  if (!response.ok) {
+    const body = await response.text()
+
+    throw new Error(
+      `Telegram send failed with ${response.status}: ${body.slice(0, 500)}`,
+    )
+  }
+}
+
 export const deliverQuoteEmail = internalAction({
   args: {
     quoteId: v.id('quotes'),
@@ -124,6 +155,25 @@ export const deliverQuoteEmail = internalAction({
           </div>
         `,
       })
+
+      const telegramMessage = [
+        'New Laser Cuts quote',
+        `Name: ${quote.name}`,
+        `Phone: ${quote.phone}`,
+        `Email: ${quote.email}`,
+        `Service: ${quote.service}`,
+        `Address: ${quote.address}`,
+        `Message: ${quote.message}`,
+      ].join('\n')
+
+      try {
+        await sendTelegramMessage(telegramMessage)
+      } catch (error) {
+        console.error('Quote Telegram alert failed.', {
+          quoteId: args.quoteId,
+          error: sanitizeEmailError(error),
+        })
+      }
 
       if (resendTextTo) {
         const smsMessage = [
