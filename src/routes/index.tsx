@@ -489,7 +489,7 @@ function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               <div className="relative overflow-hidden rounded-[32px] shadow-xl aspect-square border-4 border-white group">
                 <img 
-                  src="https://images.unsplash.com/photo-1599110364868-26407b319625?auto=format&fit=crop&q=80&w=800" 
+                  src="/gallery/recent-mulch-job.jpeg" 
                   alt="Recent Mulch Job" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
@@ -500,7 +500,7 @@ function Home() {
               
               <div className="relative overflow-hidden rounded-[32px] shadow-xl aspect-square border-4 border-white group">
                 <img 
-                  src="https://storage.googleapis.com/multimodal-tool-use-input/7c83f94a-8f55-468c-901b-c743e498c894/input_file_0.png" 
+                  src="/gallery/lawn-care-before-after.png" 
                   alt="Before and After Lawn Care" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
@@ -511,7 +511,7 @@ function Home() {
 
               <div className="relative overflow-hidden rounded-[32px] shadow-xl aspect-square border-4 border-white group">
                 <img 
-                  src="https://storage.googleapis.com/multimodal-tool-use-input/c4441712-426b-4e01-a53c-1b7774e50882/input_file_0.png" 
+                  src="/gallery/weed-spraying-before-after.png" 
                   alt="Weed Spraying Before and After" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
@@ -522,7 +522,7 @@ function Home() {
 
               <div className="relative overflow-hidden rounded-[32px] shadow-xl aspect-square border-4 border-white group">
                 <img 
-                  src="https://storage.googleapis.com/multimodal-tool-use-input/6f2e8251-512c-491f-a579-2ef539402506/input_file_0.png" 
+                  src="/gallery/tree-planting-mulch-ring.png" 
                   alt="Tree Planting and Mulch Ring" 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
