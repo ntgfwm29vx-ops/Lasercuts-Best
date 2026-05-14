@@ -491,7 +491,8 @@ function Home() {
               {galleryPhotos.map((photo) => (
                 <Link
                   key={photo.src}
-                  to="/gallery"
+                  to="/gallery/$category"
+                  params={{ category: photo.slug }}
                   className="relative overflow-hidden rounded-[32px] shadow-xl aspect-square border-4 border-white group block focus:outline-none focus:ring-4 focus:ring-green-600/40"
                   aria-label={`Open gallery for ${photo.alt}`}
                 >

@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
 import { BUSINESS_NAME } from '../../businessConfig'
-import { galleryPhotos } from '../galleryPhotos'
+import { findGalleryPhoto } from '../galleryPhotos'
 
 type AddedPhoto = {
   id: string
@@ -9,28 +9,36 @@ type AddedPhoto = {
   alt: string
 }
 
-const storageKey = 'laser-cuts-added-gallery-photos'
+export const Route = createFileRoute('/gallery_/$category')({
+  head: ({ params }) => {
+    const gallery = findGalleryPhoto(params.category)
+    const title = gallery ? `${gallery.title} Gallery | Laser Cuts` : 'Gallery | Laser Cuts'
 
-export const Route = createFileRoute('/gallery')({
-  head: () => ({
-    meta: [
-      {
-        title: 'Gallery | Laser Cuts',
-      },
-      {
-        name: 'description',
-        content: 'View Laser Cuts lawn care and landscaping project photos.',
-      },
-    ],
-  }),
-  component: Gallery,
+    return {
+      meta: [
+        {
+          title,
+        },
+        {
+          name: 'description',
+          content: gallery
+            ? `View and add ${gallery.title.toLowerCase()} project photos for Laser Cuts.`
+            : 'View and add Laser Cuts project photos.',
+        },
+      ],
+    }
+  },
+  component: CategoryGallery,
 })
 
-function Gallery() {
+function CategoryGallery() {
+  const { category } = Route.useParams()
+  const gallery = findGalleryPhoto(category)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [addedPhotos, setAddedPhotos] = useState<AddedPhoto[]>([])
   const [isAdding, setIsAdding] = useState(false)
   const [message, setMessage] = useState('')
+  const storageKey = `laser-cuts-added-gallery-photos-${category}`
 
   useEffect(() => {
     const savedPhotos = window.localStorage.getItem(storageKey)
@@ -42,7 +50,7 @@ function Gallery() {
     } catch {
       window.localStorage.removeItem(storageKey)
     }
-  }, [])
+  }, [storageKey])
 
   const saveAddedPhotos = (photos: AddedPhoto[]) => {
     setAddedPhotos(photos)
@@ -72,7 +80,7 @@ function Gallery() {
       }
 
       saveAddedPhotos([...nextPhotos, ...addedPhotos])
-      setMessage(`${nextPhotos.length} photo${nextPhotos.length === 1 ? '' : 's'} added to this browser.`)
+      setMessage(`${nextPhotos.length} photo${nextPhotos.length === 1 ? '' : 's'} added to this gallery.`)
     } catch {
       setMessage('That image could not be added. Try a smaller photo.')
     } finally {
@@ -87,9 +95,24 @@ function Gallery() {
     saveAddedPhotos(addedPhotos.filter((photo) => photo.id !== photoId))
   }
 
+  if (!gallery) {
+    return (
+      <main className="min-h-screen bg-gray-50 px-4 py-20 text-center text-gray-950">
+        <p className="text-green-700 font-black uppercase tracking-widest mb-4">Project Gallery</p>
+        <h1 className="text-5xl font-black uppercase italic tracking-tighter mb-8">Gallery Not Found</h1>
+        <Link
+          to="/gallery"
+          className="inline-flex rounded-full bg-green-600 px-8 py-4 text-base font-black text-white uppercase tracking-tight shadow-xl shadow-green-600/20"
+        >
+          Choose A Gallery
+        </Link>
+      </main>
+    )
+  }
+
   const allPhotos = [
     ...addedPhotos.map((photo) => ({ ...photo, label: 'Added Photo', canRemove: true })),
-    ...galleryPhotos.map((photo) => ({ ...photo, id: photo.src, canRemove: false })),
+    { ...gallery, id: gallery.src, canRemove: false },
   ]
 
   return (
@@ -101,8 +124,7 @@ function Gallery() {
             <span className="text-xl font-black tracking-tighter uppercase italic">{BUSINESS_NAME}</span>
           </Link>
           <Link
-            to="/"
-            hash="gallery"
+            to="/gallery"
             className="rounded-full bg-green-600 px-5 py-3 text-sm font-black text-white uppercase tracking-tight shadow-lg shadow-green-600/20"
           >
             Back
@@ -116,7 +138,7 @@ function Gallery() {
             <div>
               <p className="text-green-700 font-black uppercase tracking-widest mb-4">Project Gallery</p>
               <h1 className="text-5xl sm:text-7xl font-black uppercase italic tracking-tighter leading-none">
-                Recent Work
+                {gallery.title}
               </h1>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
