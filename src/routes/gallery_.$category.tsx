@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
 import { BUSINESS_NAME } from '../../businessConfig'
-import { findGalleryPhoto } from '../galleryPhotos'
+import { findGalleryPhoto, galleryPhotos } from '../galleryPhotos'
 
 type AddedPhoto = {
   id: string
@@ -175,6 +175,44 @@ function CategoryGallery() {
               {message}
             </p>
           )}
+
+          <nav aria-label="Gallery shortcuts" className="mb-12">
+            <p className="mb-4 text-sm font-black uppercase tracking-widest text-green-700">Jump To</p>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {galleryPhotos.map((shortcut) => {
+                const isCurrent = shortcut.slug === gallery.slug
+
+                return (
+                  <Link
+                    key={shortcut.slug}
+                    to="/gallery/$category"
+                    params={{ category: shortcut.slug }}
+                    aria-current={isCurrent ? 'page' : undefined}
+                    className={`group relative overflow-hidden rounded-[24px] border-4 shadow-lg aspect-[4/3] focus:outline-none focus:ring-4 focus:ring-green-600/40 ${
+                      isCurrent ? 'border-green-600' : 'border-white'
+                    }`}
+                  >
+                    <img
+                      src={shortcut.src}
+                      alt=""
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/45" />
+                    <div className="absolute inset-x-0 bottom-0 p-4">
+                      <span className="block text-sm sm:text-base font-black uppercase italic tracking-tighter text-white">
+                        {shortcut.label}
+                      </span>
+                      {isCurrent && (
+                        <span className="mt-1 inline-flex rounded-full bg-green-600 px-3 py-1 text-[0.65rem] font-black uppercase tracking-tight text-white">
+                          Current
+                        </span>
+                      )}
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          </nav>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {allPhotos.map((photo) => (
