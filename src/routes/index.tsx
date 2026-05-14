@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useMutation } from 'convex/react'
 import { useEffect, useState } from 'react'
 import { api } from '../../convex/_generated/api'
@@ -15,6 +15,7 @@ import {
 } from '../../businessConfig'
 import { quoteServiceValues } from '../../quoteOptions'
 import { parseQuoteSubmission } from '../../quoteValidation'
+import { galleryPhotos } from '../galleryPhotos'
 import type { FormEvent } from 'react'
 
 const siteUrl = import.meta.env.VITE_SITE_URL ?? DEFAULT_SITE_URL
@@ -487,49 +488,23 @@ function Home() {
               <p className="text-gray-600 max-w-2xl mx-auto text-xl font-medium">Take a look at some of our recent transformations in Fort Wayne. We take pride in every yard we service.</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="relative overflow-hidden rounded-[32px] shadow-xl aspect-square border-4 border-white group">
-                <img 
-                  src="/gallery/recent-mulch-job.jpeg" 
-                  alt="Recent Mulch Job" 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span className="text-white font-black uppercase italic tracking-tighter text-xl">Mulch & Planting</span>
-                </div>
-              </div>
-              
-              <div className="relative overflow-hidden rounded-[32px] shadow-xl aspect-square border-4 border-white group">
-                <img 
-                  src="/gallery/lawn-care-before-after.png" 
-                  alt="Before and After Lawn Care" 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span className="text-white font-black uppercase italic tracking-tighter text-xl">Before & After</span>
-                </div>
-              </div>
-
-              <div className="relative overflow-hidden rounded-[32px] shadow-xl aspect-square border-4 border-white group">
-                <img 
-                  src="/gallery/weed-spraying-before-after.png" 
-                  alt="Weed Spraying Before and After" 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span className="text-white font-black uppercase italic tracking-tighter text-xl">Weed Spraying</span>
-                </div>
-              </div>
-
-              <div className="relative overflow-hidden rounded-[32px] shadow-xl aspect-square border-4 border-white group">
-                <img 
-                  src="/gallery/tree-planting-mulch-ring.png" 
-                  alt="Tree Planting and Mulch Ring" 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span className="text-white font-black uppercase italic tracking-tighter text-xl">Tree Care & Mulching</span>
-                </div>
-              </div>
+              {galleryPhotos.map((photo) => (
+                <Link
+                  key={photo.src}
+                  to="/gallery"
+                  className="relative overflow-hidden rounded-[32px] shadow-xl aspect-square border-4 border-white group block focus:outline-none focus:ring-4 focus:ring-green-600/40"
+                  aria-label={`Open gallery for ${photo.alt}`}
+                >
+                  <img 
+                    src={photo.src} 
+                    alt={photo.alt} 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span className="text-white font-black uppercase italic tracking-tighter text-xl">{photo.label}</span>
+                  </div>
+                </Link>
+              ))}
             </div>
             <div className="mt-20 text-center">
               <p className="text-gray-500 font-bold italic text-xl">"Treating every yard like a masterpiece. Real customer photos are added as we complete jobs!"</p>
