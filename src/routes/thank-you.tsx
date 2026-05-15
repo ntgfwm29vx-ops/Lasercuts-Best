@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { BUSINESS_EMAIL, BUSINESS_PHONE } from '../../businessConfig'
+import { SiteMenu } from '../components/SiteMenu'
 
 export const Route = createFileRoute('/thank-you')({
   head: () => ({
@@ -17,6 +18,9 @@ export const Route = createFileRoute('/thank-you')({
 function ThankYou() {
   return (
     <div className="min-h-screen bg-green-600 px-4 py-24 text-white">
+      <div className="mx-auto mb-6 flex max-w-3xl justify-end">
+        <SiteMenu />
+      </div>
       <div className="mx-auto max-w-3xl rounded-[40px] border-b-[12px] border-green-800 bg-white p-12 text-center text-gray-900 shadow-2xl">
         <div className="mb-6 text-7xl">✅</div>
         <h1 className="mb-4 text-5xl font-black uppercase italic tracking-tighter">

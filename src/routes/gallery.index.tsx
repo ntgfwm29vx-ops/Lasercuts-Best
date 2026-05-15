@@ -1,5 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { BUSINESS_NAME } from '../../businessConfig'
+import { SiteMenu } from '../components/SiteMenu'
 import { galleryPhotos } from '../galleryPhotos'
 
 export const Route = createFileRoute('/gallery/')({
@@ -26,13 +27,16 @@ function GalleryIndex() {
             <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-600 text-white font-black italic">L</span>
             <span className="text-xl font-black tracking-tighter uppercase italic">{BUSINESS_NAME}</span>
           </Link>
-          <Link
-            to="/"
-            hash="gallery"
-            className="rounded-full bg-green-600 px-5 py-3 text-sm font-black text-white uppercase tracking-tight shadow-lg shadow-green-600/20"
-          >
-            Back
-          </Link>
+          <div className="flex items-center gap-3">
+            <SiteMenu />
+            <Link
+              to="/"
+              hash="gallery"
+              className="rounded-full bg-green-600 px-5 py-3 text-sm font-black text-white uppercase tracking-tight shadow-lg shadow-green-600/20"
+            >
+              Back
+            </Link>
+          </div>
         </div>
       </header>
 

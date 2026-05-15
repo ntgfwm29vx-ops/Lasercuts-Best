@@ -15,6 +15,7 @@ import {
 } from '../../businessConfig'
 import { quoteServiceValues } from '../../quoteOptions'
 import { parseQuoteSubmission } from '../../quoteValidation'
+import { SiteMenu } from '../components/SiteMenu'
 import { galleryPhotos } from '../galleryPhotos'
 import type { FormEvent } from 'react'
 
@@ -202,6 +203,7 @@ function Home() {
             <a href={`tel:${BUSINESS_PHONE.replace(/-/g, '')}`} className="hidden md:block text-lg font-bold text-green-700 hover:text-green-800 transition-colors">
               {phone}
             </a>
+            <SiteMenu />
             <button 
               onClick={() => document.getElementById('quote')?.scrollIntoView({ behavior: 'smooth' })}
               className="rounded-full bg-green-600 px-6 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-green-700 transition-all cursor-pointer uppercase tracking-tight"
@@ -214,7 +216,7 @@ function Home() {
 
       <main>
         {/* Hero Section */}
-        <section className="relative py-24 flex items-center justify-center bg-gray-900 text-white overflow-hidden">
+        <section id="home" className="relative py-24 flex items-center justify-center bg-gray-900 text-white overflow-hidden">
           <div className="absolute inset-0 z-0">
              <div className="absolute inset-0 bg-gradient-to-br from-green-900 to-black opacity-90" />
           </div>
@@ -262,7 +264,7 @@ function Home() {
         </section>
 
         {/* Pricing Section */}
-        <section className="bg-gray-50 py-24 px-4 sm:px-6 lg:px-8 border-b">
+        <section id="pricing" className="bg-gray-50 py-24 px-4 sm:px-6 lg:px-8 border-b">
           <div className="mx-auto max-w-7xl text-center">
             <div className="mb-16">
               <h2 className="text-4xl font-black text-gray-900 uppercase italic tracking-tighter mb-4">Simple Pricing</h2>
@@ -325,7 +327,7 @@ function Home() {
         </section>
 
         {/* Services Section */}
-        <section className="py-32 px-4 sm:px-6 lg:px-8 bg-white border-b">
+        <section id="services" className="py-32 px-4 sm:px-6 lg:px-8 bg-white border-b">
           <div className="mx-auto max-w-7xl">
             <h2 className="text-5xl font-black text-gray-900 text-center mb-20 uppercase italic tracking-tighter">Full Service List</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-5xl mx-auto">
