@@ -488,6 +488,12 @@ function Home() {
                 📷 Reference Photos
               </div>
               <p className="text-gray-600 max-w-2xl mx-auto text-xl font-medium">Take a look at some of our recent transformations in Fort Wayne. We take pride in every yard we service.</p>
+              <Link
+                to="/gallery"
+                className="mt-8 inline-flex items-center justify-center rounded-full bg-white px-7 py-3 text-sm font-black uppercase tracking-widest text-green-700 shadow-lg ring-1 ring-green-100 transition-all hover:-translate-y-0.5 hover:text-green-800 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-green-600/30"
+              >
+                Click to see more work
+              </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {galleryPhotos.map((photo) => (
