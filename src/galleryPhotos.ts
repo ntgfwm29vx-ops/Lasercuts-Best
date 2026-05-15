@@ -1,7 +1,7 @@
 export const galleryPhotos = [
   {
     slug: 'mulch-and-planting',
-    src: '/gallery/recent-mulch-job.jpeg',
+    src: '/gallery/recent-mulch-job.png',
     alt: 'Recent Mulch Job',
     label: 'Mulch & Planting',
     title: 'Mulch & Planting',
