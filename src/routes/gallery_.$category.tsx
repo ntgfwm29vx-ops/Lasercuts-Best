@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { BUSINESS_NAME } from '../../businessConfig'
 import { SiteMenu } from '../components/SiteMenu'
-import { findGalleryPhoto, galleryPhotos } from '../galleryPhotos'
+import { findGalleryPhoto, galleryPhotos, getGalleryAlbum } from '../galleryPhotos'
 
 export const Route = createFileRoute('/gallery_/$category')({
   head: ({ params }) => {
@@ -28,6 +28,7 @@ export const Route = createFileRoute('/gallery_/$category')({
 function CategoryGallery() {
   const { category } = Route.useParams()
   const gallery = findGalleryPhoto(category)
+  const galleryAlbum = getGalleryAlbum(category)
 
   if (!gallery) {
     return (
@@ -114,20 +115,25 @@ function CategoryGallery() {
           </nav>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <article className="group">
-              <div className="relative overflow-hidden rounded-[32px] border-4 border-white bg-white shadow-xl aspect-square">
-                <img
-                  src={gallery.src}
-                  alt={gallery.alt}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-5">
-                  <h2 className="text-xl font-black uppercase italic tracking-tighter text-white">
-                    {gallery.label}
-                  </h2>
+            {galleryAlbum.map((photo, index) => (
+              <article key={photo.src} className="group">
+                <div className="relative overflow-hidden rounded-[32px] border-4 border-white bg-white shadow-xl aspect-[4/3]">
+                  <img
+                    src={photo.src}
+                    alt={photo.alt}
+                    className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                  />
+                  {index === 0 && (
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-5">
+                      <h2 className="text-xl font-black uppercase italic tracking-tighter text-white">
+                        {gallery.label}
+                      </h2>
+                    </div>
+                  )}
                 </div>
-              </div>
-            </article>
+              </article>
+            ))}
           </div>
         </div>
       </section>

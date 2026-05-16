@@ -4,6 +4,7 @@ import { galleryPhotos } from '../galleryPhotos'
 
 const mainLinks = [
   { label: 'Home', href: '/#home' },
+  { label: 'Reviews', href: '/#reviews' },
   { label: 'Pricing', href: '/#pricing' },
   { label: 'Services', href: '/#services' },
   { label: 'Free Quote', href: '/#quote' },

@@ -29,6 +29,34 @@ export const galleryPhotos = [
   },
 ]
 
+export const galleryAlbums: Record<string, { src: string; alt: string }[]> = {
+  'before-and-after': [
+    {
+      src: '/gallery/lawn-care-before-after.png',
+      alt: 'Before and After Lawn Care',
+    },
+    ...Array.from({ length: 27 }, (_, index) => {
+      const photoNumber = index + 1
+      const paddedNumber = photoNumber.toString().padStart(2, '0')
+
+      return {
+        src: `/gallery/before-and-after/mowing-${paddedNumber}.jpeg`,
+        alt: `Before and after mowing project ${photoNumber}`,
+      }
+    }),
+  ],
+}
+
 export function findGalleryPhoto(slug: string) {
   return galleryPhotos.find((photo) => photo.slug === slug)
+}
+
+export function getGalleryAlbum(slug: string) {
+  const galleryPhoto = findGalleryPhoto(slug)
+
+  if (!galleryPhoto) {
+    return []
+  }
+
+  return galleryAlbums[slug] ?? [{ src: galleryPhoto.src, alt: galleryPhoto.alt }]
 }

@@ -40,6 +40,27 @@ const localBusinessSchema = {
   priceRange: `${NEW_CUSTOMER_PRICE}-${BASE_CUT_PRICE}+`,
 }
 
+const featuredReviews = [
+  {
+    name: 'Michael bean',
+    timeAgo: '7 hours ago',
+    review:
+      'Absolutely impressed with the work! The team was professional, on time, and paid attention to every detail. They transformed the yard and made everything look clean and polished. Great communication, fair pricing, and you can tell they really care about the quality of their work. I’d definitely recommend them to anyone looking for reliable landscaping services!',
+  },
+  {
+    name: 'Doreen Adjei',
+    timeAgo: '3 weeks ago',
+    review:
+      'I wasn’t sure what to expect hiring a high schooler to take care of my lawn, but Trey and his team really impressed me. His attention to detail stood out right away. He was also very respectful, easy to communicate with, and made sure to do exactly what I asked (and even went a bit beyond that). Overall, a great experience, and I’d definitely recommend him to others.',
+  },
+  {
+    name: 'Micah Silveus',
+    timeAgo: '3 weeks ago',
+    review:
+      'Very good and fast people. They did it clean and quick and were a nice group.',
+  },
+] as const
+
 export const Route = createFileRoute('/')({
   head: () => ({
     meta: [
@@ -259,6 +280,52 @@ function Home() {
                   Get to know me ↓
                 </button>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Reviews Section */}
+        <section id="reviews" className="bg-white px-4 py-20 sm:px-6 lg:px-8 border-b">
+          <div className="mx-auto max-w-7xl">
+            <div className="mx-auto mb-14 max-w-3xl text-center">
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-yellow-100 px-5 py-2 text-xs font-black uppercase tracking-[0.25em] text-yellow-700">
+                <span className="text-base">★★★★★</span>
+                Recent Reviews
+              </div>
+              <h2 className="text-4xl font-black uppercase italic tracking-tighter text-gray-900 sm:text-5xl">
+                Fort Wayne Homeowners Trust Laser Cuts
+              </h2>
+              <p className="mt-5 text-lg font-medium leading-relaxed text-gray-600">
+                Real feedback from recent customers who wanted clean work, fast communication, and a yard that actually looks finished when we leave.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+              {featuredReviews.map((review) => (
+                <article
+                  key={review.name}
+                  className="flex h-full flex-col rounded-[32px] border border-gray-200 bg-gray-50 p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl"
+                >
+                  <div className="mb-6 flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-2xl font-black tracking-tight text-gray-900">
+                        {review.name}
+                      </p>
+                      <div className="mt-2 flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-gray-500">
+                        <span className="text-base text-yellow-500">★★★★★</span>
+                        <span>{review.timeAgo}</span>
+                      </div>
+                    </div>
+                    <div className="rounded-full bg-green-100 px-3 py-1 text-xs font-black uppercase tracking-[0.2em] text-green-700">
+                      Verified
+                    </div>
+                  </div>
+
+                  <p className="flex-1 text-lg font-medium leading-relaxed text-gray-700">
+                    “{review.review}”
+                  </p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
