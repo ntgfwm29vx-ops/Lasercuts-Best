@@ -212,7 +212,7 @@ function InfoTip({ label, message }: { label: string; message: string }) {
         i
       </button>
       {isOpen && (
-        <span role="tooltip" className="absolute bottom-[calc(100%+0.65rem)] left-1/2 z-30 w-64 -translate-x-1/2 rounded-2xl bg-gray-900 px-4 py-3 text-left text-sm font-medium normal-case tracking-normal text-white shadow-xl">
+        <span role="tooltip" className="fixed inset-x-4 bottom-4 z-50 w-auto rounded-2xl bg-gray-900 px-5 py-4 text-left text-sm font-medium normal-case leading-relaxed tracking-normal text-white shadow-2xl sm:absolute sm:inset-x-auto sm:bottom-[calc(100%+0.65rem)] sm:left-1/2 sm:w-72 sm:-translate-x-1/2 sm:px-4 sm:py-3 sm:shadow-xl">
           {message}
         </span>
       )}
@@ -531,33 +531,35 @@ function Home() {
                       isPopular ? 'border-4 border-green-600 shadow-xl lg:-translate-y-3' : 'border border-gray-200'
                     }`}
                   >
-                    {pkg.badge && (
-                      <span className={`mb-5 inline-flex w-fit self-center rounded-full px-4 py-2 text-xs font-black uppercase tracking-widest ${
-                        isPopular ? 'bg-green-600 text-white' : 'bg-gray-900 text-white'
-                      }`}>
-                        {pkg.badge}
-                      </span>
-                    )}
-                    <div className="flex items-center justify-center gap-2">
+                    <div className="mb-5 flex min-h-9 items-center justify-center">
+                      {pkg.badge && (
+                        <span className={`inline-flex w-fit self-center rounded-full px-4 py-2 text-xs font-black uppercase tracking-widest ${
+                          isPopular ? 'bg-green-600 text-white' : 'bg-gray-900 text-white'
+                        }`}>
+                          {pkg.badge}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex min-h-9 items-center justify-center gap-2">
                       <h3 className="text-3xl font-black uppercase italic tracking-tighter text-gray-900">{pkg.title}</h3>
                       <span className="text-green-700">
                         <InfoTip label={`About the ${pkg.title} package`} message={pkg.details} />
                       </span>
                     </div>
-                    <p className="mt-3 min-h-12 text-base font-medium leading-relaxed text-gray-600">{pkg.description}</p>
+                    <p className="mt-3 min-h-14 text-base font-medium leading-relaxed text-gray-600">{pkg.description}</p>
                     <div className="mt-6 flex items-baseline justify-center gap-1 text-gray-900">
                       <span className="text-5xl font-black tracking-tighter">{pkg.price}</span>
                       <span className="text-lg font-bold text-gray-500">/ cut</span>
                     </div>
-                    <p className="mt-1 flex items-center justify-center gap-2 text-sm font-bold text-gray-500">
+                    <p className="mt-1 flex min-h-10 items-center justify-center gap-2 text-sm font-bold text-gray-500">
                       Starting price for routine residential lawns
                       <span className="text-green-700">
                         <InfoTip label="About starting prices" message="Starting prices apply to standard residential properties. Lawn size, condition, obstacles, access, and requested work can affect the final quote." />
                       </span>
                     </p>
-                    <ul className="mx-auto mt-7 w-full max-w-md space-y-3 text-left text-sm font-bold leading-snug text-gray-700">
+                    <ul className="mx-auto mt-7 w-full max-w-md space-y-3 text-left text-[0.95rem] font-bold leading-snug text-gray-700">
                       {pkg.features.map((feature) => (
-                        <li key={feature} className="grid grid-cols-[1rem_minmax(0,1fr)] items-start gap-3"><span className="pt-px text-green-600">✓</span><span>{feature}</span></li>
+                        <li key={feature} className="grid grid-cols-[1rem_minmax(0,1fr)] items-start gap-2.5"><span className="pt-px text-green-600">✓</span><span>{feature}</span></li>
                       ))}
                     </ul>
                     {pkg.note && <p className="mt-5 rounded-2xl bg-gray-50 p-4 text-center text-sm font-medium leading-relaxed text-gray-600">{pkg.note}</p>}
