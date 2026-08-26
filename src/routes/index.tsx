@@ -78,8 +78,8 @@ const mowingPackages: readonly MowingPackage[] = [
     features: [
       'Lawn mowing',
       'String trimming around obstacles, fences, trees, and mower-missed areas',
-      'Grass clippings mulched when conditions allow',
-      'Driveway, sidewalk, and accessible hard-surface cleanup',
+      'Mulch grass',
+      'Blow off driveways and sidewalks',
     ],
     buttonLabel: 'Select Basic',
   },
@@ -435,12 +435,12 @@ function Home() {
                 return (
                   <article
                     key={pkg.service}
-                    className={`relative flex h-full flex-col rounded-[30px] bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl sm:p-8 ${
+                    className={`relative flex h-full flex-col items-center rounded-[30px] bg-white p-7 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-xl sm:p-8 ${
                       isPopular ? 'border-4 border-green-600 shadow-xl lg:-translate-y-3' : 'border border-gray-200'
                     }`}
                   >
                     {pkg.badge && (
-                      <span className={`mb-5 inline-flex w-fit rounded-full px-4 py-2 text-xs font-black uppercase tracking-widest ${
+                      <span className={`mb-5 inline-flex w-fit self-center rounded-full px-4 py-2 text-xs font-black uppercase tracking-widest ${
                         isPopular ? 'bg-green-600 text-white' : 'bg-gray-900 text-white'
                       }`}>
                         {pkg.badge}
@@ -448,17 +448,17 @@ function Home() {
                     )}
                     <h3 className="text-3xl font-black uppercase italic tracking-tighter text-gray-900">{pkg.title}</h3>
                     <p className="mt-3 min-h-12 text-base font-medium leading-relaxed text-gray-600">{pkg.description}</p>
-                    <div className="mt-6 flex items-baseline gap-1 text-gray-900">
+                    <div className="mt-6 flex items-baseline justify-center gap-1 text-gray-900">
                       <span className="text-5xl font-black tracking-tighter">{pkg.price}</span>
                       <span className="text-lg font-bold text-gray-500">/ cut</span>
                     </div>
                     <p className="mt-1 text-sm font-bold text-gray-500">Starting price for routine residential lawns</p>
-                    <ul className="mt-7 space-y-3 text-left text-sm font-bold leading-snug text-gray-700">
+                    <ul className="mt-7 w-full space-y-3 text-center text-sm font-bold leading-snug text-gray-700">
                       {pkg.features.map((feature) => (
-                        <li key={feature} className="flex gap-3"><span className="text-green-600">✓</span><span>{feature}</span></li>
+                        <li key={feature} className="flex items-start justify-center gap-3"><span className="shrink-0 text-green-600">✓</span><span>{feature}</span></li>
                       ))}
                     </ul>
-                    {pkg.note && <p className="mt-5 rounded-2xl bg-gray-50 p-4 text-sm font-medium leading-relaxed text-gray-600">{pkg.note}</p>}
+                    {pkg.note && <p className="mt-5 rounded-2xl bg-gray-50 p-4 text-center text-sm font-medium leading-relaxed text-gray-600">{pkg.note}</p>}
                     <button
                       type="button"
                       onClick={() => selectPackage(pkg.service)}
