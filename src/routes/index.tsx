@@ -597,17 +597,15 @@ function Home() {
               </div>
             </div>
 
-            <div className="mt-6 grid gap-4 rounded-3xl border border-green-100 bg-green-50 p-6 text-sm leading-relaxed text-gray-700 sm:grid-cols-2">
-              <p><strong className="text-green-800">Access:</strong> Please make sure gates are unlocked and the lawn is accessible on your scheduled service day.</p>
-              <p><strong className="text-green-800">Before we arrive:</strong> Please remove toys, hoses, excessive pet waste, and other objects. Extra cleanup time may result in an added charge or an area being skipped.</p>
-            </div>
-
             <p className="mx-auto mt-8 max-w-4xl text-center text-sm font-medium leading-relaxed text-gray-500">Prices shown are starting prices for standard residential properties receiving routine maintenance. Final pricing depends on lawn size, terrain, obstacles, trimming requirements, property condition, service frequency, access, and requested add-ons. Your exact recurring price will be confirmed before service begins.</p>
 
             <div className="mx-auto mt-12 max-w-3xl rounded-[32px] bg-gray-900 px-7 py-9 text-center text-white shadow-xl sm:px-10">
               <h3 className="text-3xl font-black uppercase italic tracking-tighter">Not Sure Which Option Fits Your Yard?</h3>
               <p className="mx-auto mt-3 max-w-xl text-base font-medium leading-relaxed text-gray-300">Tell us about your property and we&apos;ll recommend the right service.</p>
-              <button type="button" onClick={() => document.getElementById('quote')?.scrollIntoView({ behavior: 'smooth' })} className="mt-6 rounded-2xl bg-green-600 px-8 py-4 text-base font-black uppercase tracking-tight text-white transition hover:bg-green-500">Get a Free Quote</button>
+              <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <button type="button" onClick={() => document.getElementById('quote')?.scrollIntoView({ behavior: 'smooth' })} className="rounded-2xl bg-green-600 px-8 py-4 text-base font-black uppercase tracking-tight text-white transition hover:bg-green-500">Get a Free Quote</button>
+                <a href={`tel:${BUSINESS_PHONE.replace(/-/g, '')}`} className="rounded-2xl bg-white px-8 py-4 text-base font-black uppercase tracking-tight text-green-700 transition hover:bg-green-50">Call {BUSINESS_PHONE}</a>
+              </div>
             </div>
           </div>
         </section>
