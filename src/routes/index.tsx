@@ -58,6 +58,83 @@ const featuredReviews = [
   },
 ] as const
 
+type MowingPackage = {
+  service: string
+  title: string
+  price: string
+  description: string
+  features: readonly string[]
+  badge?: string
+  note?: string
+  buttonLabel: string
+}
+
+const mowingPackages: readonly MowingPackage[] = [
+  {
+    service: 'Basic Cut',
+    title: 'Basic Cut',
+    price: '$45',
+    description: 'Routine lawn maintenance for a clean, maintained yard.',
+    features: [
+      'Lawn mowing',
+      'String trimming around obstacles, fences, trees, and mower-missed areas',
+      'Grass clippings mulched when conditions allow',
+      'Driveway, sidewalk, and accessible hard-surface cleanup',
+    ],
+    buttonLabel: 'Select Basic',
+  },
+  {
+    service: 'Complete Cut',
+    title: 'Complete Cut',
+    price: '$50',
+    description: 'Our most popular service for a crisp, finished appearance.',
+    features: [
+      'Everything in Basic Cut',
+      'String edging along sidewalks and driveways',
+      'Detailed trimming around landscaping and obstacles',
+      'Extra attention to corners and hard-to-reach areas',
+      'Full driveway and sidewalk cleanup',
+      'Final property walk-through',
+    ],
+    badge: 'Most Popular',
+    buttonLabel: 'Select Complete',
+  },
+  {
+    service: 'Premium Detail Cut',
+    title: 'Premium Detail Cut',
+    price: '$60',
+    description: 'For homeowners who want the cleanest possible finish.',
+    features: [
+      'Everything in Complete Cut',
+      'Blade edging of established driveway and sidewalk edges',
+      'Detailed trimming around landscape beds',
+      'Enhanced property cleanup',
+      'Clipping cleanup from landscaping and hard surfaces',
+      'Priority attention to the finished appearance',
+    ],
+    badge: 'Best Finish',
+    note: 'Grass bagging can be added when requested. Additional charge may apply based on lawn size and clipping volume.',
+    buttonLabel: 'Select Premium',
+  },
+] as const
+
+const serviceDefinitions = [
+  ['String Trimming / Weed Eating', 'Cuts grass around trees, fences, landscaping, mailboxes, and other areas the mower cannot reach.'],
+  ['String Edging', 'Uses a string trimmer to create a clean grass line along sidewalks and driveway edges.'],
+  ['Blade Edging', 'Uses a dedicated edging blade for a sharper, professionally defined edge between turf and concrete.'],
+  ['Grass Mulching', 'Finely cuts clippings and returns them to the lawn when conditions allow.'],
+  ['Grass Bagging', 'Collects clippings instead of returning them to the lawn. An added charge may apply.'],
+] as const
+
+const addOns = [
+  ['Grass Bagging', 'From +$10', 'Clippings are collected rather than mulched. Final charge depends on lawn size and clipping volume.'],
+  ['Edge Restoration', 'From +$15', 'For sidewalks or driveways with heavily overgrown turf that needs the edge re-established.'],
+  ['Overgrown Lawn', 'Quoted as needed', 'May apply when extra cutting, passes, cleanup, or disposal is needed beyond normal maintenance.'],
+  ['Every-Other-Week Service', 'About 15% more per visit', 'Bi-weekly lawns typically need more cutting, trimming, and cleanup. Basic is about $52, Complete about $58, and Premium about $69.'],
+  ['Heavy Cleanup', 'From +$10', 'May apply when unusually heavy clippings or debris require extra cleanup time.'],
+  ['Large / Complex Property', 'Custom quote', 'Larger yards, steep areas, extensive fencing, many obstacles, or difficult access may need customized pricing.'],
+] as const
+
 export const Route = createFileRoute('/')({
   head: () => ({
     meta: [
@@ -126,6 +203,7 @@ function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [fingerprint, setFingerprint] = useState('')
+  const [selectedService, setSelectedService] = useState('')
 
   useEffect(() => {
     const storageKey = 'laser-cuts-quote-fingerprint'
@@ -152,6 +230,11 @@ function Home() {
     window.localStorage.setItem('laser-cuts-quote-fingerprint', generatedFingerprint)
     setFingerprint(generatedFingerprint)
     return generatedFingerprint
+  }
+
+  const selectPackage = (service: string) => {
+    setSelectedService(service)
+    document.getElementById('quote')?.scrollIntoView({ behavior: 'smooth' })
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -327,64 +410,115 @@ function Home() {
         </section>
 
         {/* Pricing Section */}
-        <section id="pricing" className="bg-gray-50 py-24 px-4 sm:px-6 lg:px-8 border-b">
-          <div className="mx-auto max-w-7xl text-center">
-            <div className="mb-16">
-              <h2 className="text-4xl font-black text-gray-900 uppercase italic tracking-tighter mb-4">Simple Pricing</h2>
-              <div className="inline-block rounded-full bg-green-600 px-8 py-3 text-white font-black text-lg shadow-md tracking-tight">
-                NEW CUSTOMER SPECIAL: {NEW_CUSTOMER_PRICE} for your first cut! ✂️
+        <section id="pricing" className="border-b bg-gray-50 px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+          <div className="mx-auto max-w-7xl">
+            <div className="mx-auto max-w-3xl text-center">
+              <p className="text-sm font-black uppercase tracking-[0.24em] text-green-700">Residential mowing</p>
+              <h2 className="mt-3 text-4xl font-black uppercase italic tracking-tighter text-gray-900 sm:text-5xl">Simple Pricing</h2>
+              <div className="mt-6 rounded-3xl bg-green-600 px-6 py-5 text-white shadow-xl shadow-green-600/20">
+                <p className="text-xl font-black uppercase tracking-tight">New Customer Special — First Cut {NEW_CUSTOMER_PRICE}</p>
+                <p className="mt-1 text-sm font-bold text-green-100">New residential mowing customers only. Standard-size yards.</p>
+                <button
+                  type="button"
+                  onClick={() => selectPackage('Basic Cut')}
+                  className="mt-4 rounded-full bg-white px-6 py-3 text-sm font-black uppercase tracking-tight text-green-700 transition hover:bg-green-50"
+                >
+                  Get My {NEW_CUSTOMER_PRICE} First Cut
+                </button>
+              </div>
+              <div className="mt-6 inline-flex max-w-2xl items-start gap-3 rounded-2xl border border-green-100 bg-white px-5 py-4 text-left text-sm font-medium text-gray-600 shadow-sm">
+                <span className="text-lg">✓</span>
+                <p><strong className="text-green-700">Best results: weekly mowing.</strong> Weekly service keeps lawns cleaner and helps prevent excessive growth, clumping, and additional charges.</p>
               </div>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              {/* Basic Cut */}
-              <div className="relative rounded-3xl border-2 border-gray-200 bg-white p-10 shadow-sm transition-all hover:shadow-xl flex flex-col items-center">
-                <div className="mb-6 inline-block rounded-lg bg-green-100 px-4 py-1.5 text-xs font-black text-green-700 uppercase tracking-widest">
-                  Most Popular
+
+            <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-stretch">
+              {mowingPackages.map((pkg) => {
+                const isPopular = pkg.badge === 'Most Popular'
+
+                return (
+                  <article
+                    key={pkg.service}
+                    className={`relative flex h-full flex-col rounded-[30px] bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl sm:p-8 ${
+                      isPopular ? 'border-4 border-green-600 shadow-xl lg:-translate-y-3' : 'border border-gray-200'
+                    }`}
+                  >
+                    {pkg.badge && (
+                      <span className={`mb-5 inline-flex w-fit rounded-full px-4 py-2 text-xs font-black uppercase tracking-widest ${
+                        isPopular ? 'bg-green-600 text-white' : 'bg-gray-900 text-white'
+                      }`}>
+                        {pkg.badge}
+                      </span>
+                    )}
+                    <h3 className="text-3xl font-black uppercase italic tracking-tighter text-gray-900">{pkg.title}</h3>
+                    <p className="mt-3 min-h-12 text-base font-medium leading-relaxed text-gray-600">{pkg.description}</p>
+                    <div className="mt-6 flex items-baseline gap-1 text-gray-900">
+                      <span className="text-5xl font-black tracking-tighter">{pkg.price}</span>
+                      <span className="text-lg font-bold text-gray-500">/ cut</span>
+                    </div>
+                    <p className="mt-1 text-sm font-bold text-gray-500">Starting price for routine residential lawns</p>
+                    <ul className="mt-7 space-y-3 text-left text-sm font-bold leading-snug text-gray-700">
+                      {pkg.features.map((feature) => (
+                        <li key={feature} className="flex gap-3"><span className="text-green-600">✓</span><span>{feature}</span></li>
+                      ))}
+                    </ul>
+                    {pkg.note && <p className="mt-5 rounded-2xl bg-gray-50 p-4 text-sm font-medium leading-relaxed text-gray-600">{pkg.note}</p>}
+                    <button
+                      type="button"
+                      onClick={() => selectPackage(pkg.service)}
+                      className={`mt-8 w-full rounded-2xl px-5 py-4 text-base font-black uppercase tracking-tight transition ${
+                        isPopular ? 'bg-green-600 text-white shadow-lg shadow-green-600/20 hover:bg-green-700' : 'bg-gray-900 text-white hover:bg-black'
+                      }`}
+                    >
+                      {pkg.buttonLabel}
+                    </button>
+                  </article>
+                )
+              })}
+            </div>
+
+            <div className="mt-12 grid gap-5 lg:grid-cols-2">
+              <div className="rounded-3xl border border-gray-200 bg-white p-6 sm:p-8">
+                <h3 className="text-2xl font-black uppercase italic tracking-tighter text-gray-900">What&apos;s Included?</h3>
+                <div className="mt-5 divide-y divide-gray-100">
+                  {serviceDefinitions.map(([title, description]) => (
+                    <details key={title} className="group py-3">
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-black text-gray-800">
+                        {title}<span className="text-green-600 transition group-open:rotate-45">+</span>
+                      </summary>
+                      <p className="pt-3 text-sm leading-relaxed text-gray-600">{description}</p>
+                    </details>
+                  ))}
                 </div>
-                <h3 className="text-3xl font-black text-gray-900 uppercase italic tracking-tighter">Basic Cut</h3>
-                <div className="mt-4 flex items-baseline text-gray-900">
-                  <span className="text-5xl font-black tracking-tighter">{BASE_CUT_PRICE}</span>
-                  <span className="ml-1 text-xl font-bold text-gray-500 tracking-tight">/cut</span>
-                </div>
-                <p className="mt-3 text-sm text-gray-500 font-bold italic">*Starting price for standard yards</p>
-                <ul className="mt-10 space-y-5 flex-1 w-full text-left max-w-[250px]">
-                  <li className="flex items-center gap-4 text-lg font-bold text-gray-700"><span className="text-green-600 text-xl">✓</span> Mowing & Trimming</li>
-                  <li className="flex items-center gap-4 text-lg font-bold text-gray-700"><span className="text-green-600 text-xl">✓</span> Blowing off Driveways</li>
-                  <li className="flex items-center gap-4 text-lg font-bold text-gray-700"><span className="text-green-600 text-xl">✓</span> Sidewalk Cleanup</li>
-                </ul>
-                <button 
-                  onClick={() => document.getElementById('quote')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="mt-12 w-full rounded-2xl bg-green-600 py-4 text-white font-black text-xl hover:bg-green-700 transition-all cursor-pointer uppercase tracking-tighter shadow-lg shadow-green-600/20"
-                >
-                  Get {NEW_CUSTOMER_PRICE} First Cut
-                </button>
               </div>
 
-              {/* Premium Cut */}
-              <div className="relative rounded-3xl border-4 border-green-600 bg-white p-10 shadow-2xl flex flex-col items-center transform scale-105 sm:scale-110 sm:z-10">
-                <div className="absolute top-0 right-10 -translate-y-1/2 rounded-full bg-green-600 px-6 py-2 text-xs font-black uppercase tracking-widest text-white shadow-lg">
-                  Best Value
+              <div className="rounded-3xl border border-gray-200 bg-white p-6 sm:p-8">
+                <h3 className="text-2xl font-black uppercase italic tracking-tighter text-gray-900">Add-ons &amp; Possible Additional Fees</h3>
+                <p className="mt-3 text-sm leading-relaxed text-gray-600">Most regularly maintained lawns stay near their quoted recurring price. These apply only when extra labor, disposal, or specialty work is needed.</p>
+                <div className="mt-4 divide-y divide-gray-100">
+                  {addOns.map(([title, price, description]) => (
+                    <details key={title} className="group py-3">
+                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-black text-gray-800">
+                        <span>{title}</span><span className="shrink-0 text-sm text-green-700">{price} <span className="ml-1 text-green-600 transition group-open:rotate-45">+</span></span>
+                      </summary>
+                      <p className="pt-3 text-sm leading-relaxed text-gray-600">{description}</p>
+                    </details>
+                  ))}
                 </div>
-                <h3 className="text-3xl font-black text-gray-900 uppercase italic tracking-tighter">Premium Cut</h3>
-                <div className="mt-4 flex items-baseline text-gray-900">
-                  <span className="text-5xl font-black tracking-tighter">$50</span>
-                  <span className="ml-1 text-xl font-bold text-gray-500 tracking-tight">/cut</span>
-                </div>
-                <p className="mt-3 text-sm text-gray-500 font-bold italic">Includes full detailing</p>
-                <ul className="mt-10 space-y-5 flex-1 w-full text-left max-w-[250px]">
-                  <li className="flex items-center gap-4 text-lg font-bold text-gray-700"><span className="text-green-600 text-xl">✓</span> Everything in Basic</li>
-                  <li className="flex items-center gap-4 text-lg font-bold text-gray-700"><span className="text-green-600 text-xl">✓</span> Professional Edging</li>
-                  <li className="flex items-center gap-4 text-lg font-bold text-gray-700"><span className="text-green-600 text-xl">✓</span> Bagging Grass Clippings</li>
-                  <li className="flex items-center gap-4 text-lg font-bold text-gray-700"><span className="text-green-600 text-xl">✓</span> Full Property Detail</li>
-                </ul>
-                <button 
-                  onClick={() => document.getElementById('quote')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="mt-12 w-full rounded-2xl bg-gray-900 py-4 text-white font-black text-xl hover:bg-black transition-all cursor-pointer uppercase tracking-tighter shadow-xl"
-                >
-                  Select Premium
-                </button>
               </div>
+            </div>
+
+            <div className="mt-6 grid gap-4 rounded-3xl border border-green-100 bg-green-50 p-6 text-sm leading-relaxed text-gray-700 sm:grid-cols-2">
+              <p><strong className="text-green-800">Access:</strong> Please make sure gates are unlocked and the lawn is accessible on your scheduled service day.</p>
+              <p><strong className="text-green-800">Before we arrive:</strong> Please remove toys, hoses, excessive pet waste, and other objects. Extra cleanup time may result in an added charge or an area being skipped.</p>
+            </div>
+
+            <p className="mx-auto mt-8 max-w-4xl text-center text-sm font-medium leading-relaxed text-gray-500">Prices shown are starting prices for standard residential properties receiving routine maintenance. Final pricing depends on lawn size, terrain, obstacles, trimming requirements, property condition, service frequency, access, and requested add-ons. Your exact recurring price will be confirmed before service begins.</p>
+
+            <div className="mx-auto mt-12 max-w-3xl rounded-[32px] bg-gray-900 px-7 py-9 text-center text-white shadow-xl sm:px-10">
+              <h3 className="text-3xl font-black uppercase italic tracking-tighter">Not Sure Which Option Fits Your Yard?</h3>
+              <p className="mx-auto mt-3 max-w-xl text-base font-medium leading-relaxed text-gray-300">Tell us about your property and we&apos;ll recommend the right service.</p>
+              <button type="button" onClick={() => document.getElementById('quote')?.scrollIntoView({ behavior: 'smooth' })} className="mt-6 rounded-2xl bg-green-600 px-8 py-4 text-base font-black uppercase tracking-tight text-white transition hover:bg-green-500">Get a Free Quote</button>
             </div>
           </div>
         </section>
@@ -507,15 +641,20 @@ function Home() {
                 </div>
                 <div className="sm:col-span-2 text-left">
                   <label className="block text-sm font-black text-green-700 uppercase tracking-widest mb-3 ml-2">Service Needed</label>
-                  <select name="service" required defaultValue="" className="block w-full rounded-2xl border-4 border-gray-100 bg-gray-50 px-6 py-5 text-xl font-bold focus:border-green-600 focus:bg-white transition-all outline-none cursor-pointer appearance-none">
+                  <select name="service" required value={selectedService} onChange={(event) => setSelectedService(event.target.value)} className="block w-full rounded-2xl border-4 border-gray-100 bg-gray-50 px-6 py-5 text-xl font-bold focus:border-green-600 focus:bg-white transition-all outline-none cursor-pointer appearance-none">
                     <option value="" disabled>Select a service...</option>
-                    <optgroup label="Lawn Maintenance">
-                      {quoteServiceValues.slice(0, 7).map((service) => (
+                    <optgroup label="Mowing Packages">
+                      {quoteServiceValues.slice(0, 3).map((service) => (
+                        <option key={service}>{service}</option>
+                      ))}
+                    </optgroup>
+                    <optgroup label="Other Lawn Maintenance">
+                      {quoteServiceValues.slice(5, 10).map((service) => (
                         <option key={service}>{service}</option>
                       ))}
                     </optgroup>
                     <optgroup label="Landscaping & More">
-                      {quoteServiceValues.slice(7).map((service) => (
+                      {quoteServiceValues.slice(10).map((service) => (
                         <option key={service}>{service}</option>
                       ))}
                     </optgroup>

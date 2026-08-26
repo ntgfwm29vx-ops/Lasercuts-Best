@@ -1,4 +1,8 @@
 export const quoteServiceValues = [
+  'Basic Cut',
+  'Complete Cut',
+  'Premium Detail Cut',
+  // Keep legacy selections valid for quote records created before the pricing update.
   'Basic Cut ($35 First Cut!)',
   'Premium Cut ($50+)',
   'Professional Mowing',
