@@ -124,13 +124,6 @@ function CategoryGallery() {
                     className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                     loading={index === 0 ? 'eager' : 'lazy'}
                   />
-                  {index === 0 && (
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-5">
-                      <h2 className="text-xl font-black uppercase italic tracking-tighter text-white">
-                        {gallery.label}
-                      </h2>
-                    </div>
-                  )}
                 </div>
               </article>
             ))}

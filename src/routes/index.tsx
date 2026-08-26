@@ -43,19 +43,16 @@ const localBusinessSchema = {
 const featuredReviews = [
   {
     name: 'Michael bean',
-    timeAgo: '7 hours ago',
     review:
       'Absolutely impressed with the work! The team was professional, on time, and paid attention to every detail. They transformed the yard and made everything look clean and polished. Great communication, fair pricing, and you can tell they really care about the quality of their work. I’d definitely recommend them to anyone looking for reliable landscaping services!',
   },
   {
     name: 'Doreen Adjei',
-    timeAgo: '3 weeks ago',
     review:
       'I wasn’t sure what to expect hiring a high schooler to take care of my lawn, but Trey and his team really impressed me. His attention to detail stood out right away. He was also very respectful, easy to communicate with, and made sure to do exactly what I asked (and even went a bit beyond that). Overall, a great experience, and I’d definitely recommend him to others.',
   },
   {
     name: 'Micah Silveus',
-    timeAgo: '3 weeks ago',
     review:
       'Very good and fast people. They did it clean and quick and were a nice group.',
   },
@@ -244,7 +241,7 @@ function Home() {
           
           <div className="relative z-10 mx-auto max-w-4xl px-4 text-center">
             <div className="mb-8 inline-flex items-center gap-2 rounded-full bg-green-600 px-5 py-2 text-sm font-black tracking-widest uppercase animate-bounce shadow-lg shadow-green-500/20">
-              <span className="text-xl">🔥</span> Special Offer: $35 First Cut
+              <span className="text-xl">🔥</span> Special Offer: {NEW_CUSTOMER_PRICE} First Cut
             </div>
             <h1 className="text-5xl font-black tracking-tighter sm:text-8xl mb-6 uppercase italic leading-[0.9]">
               Laser Sharp Cuts <br />
@@ -311,9 +308,8 @@ function Home() {
                       <p className="text-2xl font-black tracking-tight text-gray-900">
                         {review.name}
                       </p>
-                      <div className="mt-2 flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-gray-500">
+                      <div className="mt-2 text-sm font-bold uppercase tracking-widest text-yellow-500">
                         <span className="text-base text-yellow-500">★★★★★</span>
-                        <span>{review.timeAgo}</span>
                       </div>
                     </div>
                     <div className="rounded-full bg-green-100 px-3 py-1 text-xs font-black uppercase tracking-[0.2em] text-green-700">
@@ -361,7 +357,7 @@ function Home() {
                   onClick={() => document.getElementById('quote')?.scrollIntoView({ behavior: 'smooth' })}
                   className="mt-12 w-full rounded-2xl bg-green-600 py-4 text-white font-black text-xl hover:bg-green-700 transition-all cursor-pointer uppercase tracking-tighter shadow-lg shadow-green-600/20"
                 >
-                  Get $35 First Cut
+                  Get {NEW_CUSTOMER_PRICE} First Cut
                 </button>
               </div>
 
