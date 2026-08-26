@@ -116,11 +116,12 @@ const mowingPackages: readonly MowingPackage[] = [
     service: 'Complete Cut',
     title: 'Complete Cut',
     price: '$50',
-    description: 'Our most popular cut for a cleaner, more finished look.',
+    description: 'Our most popular option for a complete, sharp regular-maintenance finish.',
     features: [
       'Everything in Basic Cut',
       'More detailed weed eating around landscaping, fences, and obstacles',
-      'Extra cleanup for a more polished overall finish',
+      'Complete and precise blade edging',
+      'Detailed cleanup for a polished finish',
     ],
     badge: 'Most Popular',
     buttonLabel: 'Select Complete',
@@ -129,15 +130,16 @@ const mowingPackages: readonly MowingPackage[] = [
     service: 'Premium Detail Cut',
     title: 'Premium Detail Cut',
     price: '$55',
-    description: 'The best choice for the sharpest curb appeal and finished edges.',
+    description: 'Best for overgrown grass, overgrown edges, or lawns that need bagging.',
     features: [
       'Everything in Complete Cut',
-      'Complete and precise blade edging',
+      'Extra cutting and cleanup for overgrown grass',
+      'Overgrown edge restoration',
       'Grass bagging and clipping removal',
-      'Our sharpest, most professional-looking finish',
+      'The right choice when a routine cut is not enough',
     ],
     badge: 'Best Finish',
-    note: 'Grass bagging is included with Premium Detail Cut when requested.',
+    note: 'Choose Premium Detail Cut when your lawn needs more than routine maintenance. Grass bagging is included when requested.',
     buttonLabel: 'Select Premium',
   },
 ] as const
@@ -147,7 +149,7 @@ const serviceDefinitions = [
   ['String Edging', 'Uses a string trimmer to create a clean grass line along sidewalks and driveway edges.'],
   ['Blade Edging', 'Uses a dedicated edging blade for a sharper, professionally defined edge between turf and concrete.'],
   ['Grass Mulching', 'Finely cuts clippings and returns them to the lawn when conditions allow.'],
-  ['Grass Bagging', 'Collects clippings instead of returning them to the lawn. An added charge may apply.'],
+  ['Grass Bagging', 'Collects clippings instead of returning them to the lawn. It is included with Premium Detail Cut when requested.'],
 ] as const
 
 const serviceGroups = [
@@ -175,10 +177,10 @@ const serviceGroups = [
 ] as const
 
 const addOns = [
-  ['Grass Bagging', 'From +$10', 'Clippings are collected rather than mulched. Final charge depends on lawn size and clipping volume.'],
-  ['Edge Restoration', 'From +$15', 'For sidewalks or driveways with heavily overgrown turf that needs the edge re-established.'],
-  ['Overgrown Lawn', 'Quoted as needed', 'May apply when extra cutting, passes, cleanup, or disposal is needed beyond normal maintenance.'],
-  ['Every-Other-Week Service', 'About 15% more per visit', 'Bi-weekly lawns typically need more cutting, trimming, and cleanup. Basic is about $52, Complete about $58, and Premium about $69.'],
+  ['Grass Bagging', 'Included with Premium', 'Premium Detail Cut includes bagging and clipping removal when requested.'],
+  ['Edge Restoration', 'Premium Detail Cut', 'Premium Detail Cut includes overgrown edge restoration for lawns that need more than a routine finish.'],
+  ['Overgrown Lawn', 'Premium Detail Cut', 'Premium is the right choice when extra cutting, passes, or cleanup are needed beyond routine maintenance.'],
+  ['Every-Other-Week Service', 'About 15% more per visit', 'Bi-weekly lawns typically need more cutting, trimming, and cleanup. Basic is about $52, Complete about $58, and Premium about $63.'],
   ['Heavy Cleanup', 'From +$10', 'May apply when unusually heavy clippings or debris require extra cleanup time.'],
   ['Large / Complex Property', 'Custom quote', 'Larger yards, steep areas, extensive fencing, many obstacles, or difficult access may need customized pricing.'],
 ] as const
