@@ -150,6 +150,30 @@ const serviceDefinitions = [
   ['Grass Bagging', 'Collects clippings instead of returning them to the lawn. An added charge may apply.'],
 ] as const
 
+const serviceGroups = [
+  {
+    title: 'Lawn Maintenance',
+    icon: '🌱',
+    services: [
+      ['Professional Lawn Mowing', 'Professional Mowing'],
+      ['String Trimming / Weed Whacking', 'String Trimming / Weed Whacking'],
+      ['Professional Edging', 'Sidewalk & Driveway Edging'],
+      ['Weed Removal & Pulling', 'Weed Removal & Pulling'],
+      ['Weed Spraying & Prevention', 'Weed Spraying'],
+    ],
+  },
+  {
+    title: 'Landscaping & More',
+    icon: '🌿',
+    services: [
+      ['Mulch & Rock Installation', 'Mulch Installation'],
+      ['Planting & Seasonal Flowers', 'Planting (Flowers, Shrubs, etc.)'],
+      ['Shrub & Bush Trimming', 'Shrub & Bush Trimming'],
+      ['Leaf Cleanup & Removal', 'Leaf Cleanup & Removal'],
+    ],
+  },
+] as const
+
 const addOns = [
   ['Grass Bagging', 'From +$10', 'Clippings are collected rather than mulched. Final charge depends on lawn size and clipping volume.'],
   ['Edge Restoration', 'From +$15', 'For sidewalks or driveways with heavily overgrown turf that needs the edge re-established.'],
@@ -374,14 +398,18 @@ function Home() {
               </div>
               
               <div className="w-full sm:w-auto flex flex-col gap-3">
-                <a href={`tel:${BUSINESS_PHONE.replace(/-/g, '')}`} className="w-full rounded-full bg-white px-12 py-5 text-xl font-black text-green-800 shadow-xl hover:bg-gray-100 transition-all uppercase tracking-tighter text-center">
-                  Call {phone}
-                </a>
+                <button
+                  type="button"
+                  onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="w-full rounded-full bg-white px-12 py-5 text-xl font-black text-green-800 shadow-xl transition-all hover:bg-gray-100 uppercase tracking-tighter text-center"
+                >
+                  View Services
+                </button>
                 <button 
-                  onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
                   className="text-sm font-black uppercase tracking-widest text-gray-300 hover:text-white transition-colors"
                 >
-                  Get to know me ↓
+                  Choose a service ↓
                 </button>
               </div>
             </div>
@@ -548,56 +576,27 @@ function Home() {
           <div className="mx-auto max-w-7xl">
             <h2 className="text-5xl font-black text-gray-900 text-center mb-20 uppercase italic tracking-tighter">Full Service List</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-5xl mx-auto">
-              <div>
-                <h3 className="text-3xl font-black text-green-700 mb-8 flex items-center gap-3 uppercase italic tracking-tight">
-                  <span className="bg-green-100 p-2 rounded-lg">🌱</span> Lawn Maintenance
-                </h3>
-                <ul className="space-y-5 text-xl font-bold text-gray-700">
-                  <li className="pb-5 border-b-2 border-gray-100 flex justify-between items-center">
-                    <span>Professional Lawn Mowing</span>
-                    <span className="text-green-600">✓</span>
-                  </li>
-                  <li className="pb-5 border-b-2 border-gray-100 flex justify-between items-center">
-                    <span>String Trimming / Weed Whacking</span>
-                    <span className="text-green-600">✓</span>
-                  </li>
-                  <li className="pb-5 border-b-2 border-gray-100 flex justify-between items-center">
-                    <span>Professional Edging</span>
-                    <span className="text-green-600">✓</span>
-                  </li>
-                  <li className="pb-5 border-b-2 border-gray-100 flex justify-between items-center">
-                    <span>Weed Removal & Pulling</span>
-                    <span className="text-green-600">✓</span>
-                  </li>
-                  <li className="pb-5 border-b-2 border-gray-100 flex justify-between items-center">
-                    <span>Weed Spraying & Prevention</span>
-                    <span className="text-green-600">✓</span>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-3xl font-black text-green-700 mb-8 flex items-center gap-3 uppercase italic tracking-tight">
-                  <span className="bg-green-100 p-2 rounded-lg">🌿</span> Landscaping & More
-                </h3>
-                <ul className="space-y-5 text-xl font-bold text-gray-700">
-                  <li className="pb-5 border-b-2 border-gray-100 flex justify-between items-center">
-                    <span>Mulch & Rock Installation</span>
-                    <span className="text-green-600">✓</span>
-                  </li>
-                  <li className="pb-5 border-b-2 border-gray-100 flex justify-between items-center">
-                    <span>Planting & Seasonal Flowers</span>
-                    <span className="text-green-600">✓</span>
-                  </li>
-                  <li className="pb-5 border-b-2 border-gray-100 flex justify-between items-center">
-                    <span>Shrub & Bush Trimming</span>
-                    <span className="text-green-600">✓</span>
-                  </li>
-                  <li className="pb-5 border-b-2 border-gray-100 flex justify-between items-center">
-                    <span>Leaf Cleanup & Removal</span>
-                    <span className="text-green-600">✓</span>
-                  </li>
-                </ul>
-              </div>
+              {serviceGroups.map((group) => (
+                <div key={group.title}>
+                  <h3 className="text-3xl font-black text-green-700 mb-8 flex items-center gap-3 uppercase italic tracking-tight">
+                    <span className="bg-green-100 p-2 rounded-lg">{group.icon}</span> {group.title}
+                  </h3>
+                  <ul className="space-y-2 text-xl font-bold text-gray-700">
+                    {group.services.map(([label, service]) => (
+                      <li key={service} className="border-b-2 border-gray-100">
+                        <button
+                          type="button"
+                          onClick={() => selectPackage(service)}
+                          className="flex w-full items-center justify-between gap-4 py-4 text-left transition hover:text-green-700"
+                        >
+                          <span>{label}</span>
+                          <span className="text-green-600">✓</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
             <p className="mt-16 text-center text-gray-500 font-bold italic max-w-2xl mx-auto text-lg leading-relaxed">
               “Don’t see your service listed? Just ask—we handle most outdoor cleanup and landscaping jobs.”
