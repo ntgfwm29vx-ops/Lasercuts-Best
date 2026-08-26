@@ -106,7 +106,7 @@ const mowingPackages: readonly MowingPackage[] = [
     description: 'Routine lawn maintenance for a clean, maintained yard.',
     features: [
       'Lawn mowing',
-      'String trimming around obstacles, fences, trees, and mower-missed areas',
+      'String Clean Property',
       'Mulch grass',
       'Blow off driveways and sidewalks',
     ],
