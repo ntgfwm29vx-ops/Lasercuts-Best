@@ -426,10 +426,6 @@ function Home() {
                   Get My {NEW_CUSTOMER_PRICE} First Cut
                 </button>
               </div>
-              <div className="mt-6 inline-flex max-w-2xl items-start gap-3 rounded-2xl border border-green-100 bg-white px-5 py-4 text-left text-sm font-medium text-gray-600 shadow-sm">
-                <span className="text-lg">✓</span>
-                <p><strong className="text-green-700">Best results: weekly mowing.</strong> Weekly service keeps lawns cleaner and helps prevent excessive growth, clumping, and additional charges.</p>
-              </div>
             </div>
 
             <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-stretch">
