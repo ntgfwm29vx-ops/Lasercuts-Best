@@ -363,9 +363,9 @@ function Home() {
         </div>
       </header>
 
-      <main>
+      <main className="flex flex-col">
         {/* Hero Section */}
-        <section id="home" className="relative py-24 flex items-center justify-center bg-gray-900 text-white overflow-hidden">
+        <section id="home" className="order-1 relative py-24 flex items-center justify-center bg-gray-900 text-white overflow-hidden">
           <div className="absolute inset-0 z-0">
              <div className="absolute inset-0 bg-gradient-to-br from-green-900 to-black opacity-90" />
           </div>
@@ -417,7 +417,7 @@ function Home() {
         </section>
 
         {/* Reviews Section */}
-        <section id="reviews" className="bg-white px-4 py-20 sm:px-6 lg:px-8 border-b">
+        <section id="reviews" className="order-2 bg-white px-4 py-20 sm:px-6 lg:px-8 border-b">
           <div className="mx-auto max-w-7xl">
             <div className="mx-auto mb-14 max-w-3xl text-center">
               <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-yellow-100 px-5 py-2 text-xs font-black uppercase tracking-[0.25em] text-yellow-700">
@@ -462,7 +462,7 @@ function Home() {
         </section>
 
         {/* Pricing Section */}
-        <section id="pricing" className="border-b bg-gray-50 px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+        <section id="pricing" className="order-5 border-b bg-gray-50 px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="mx-auto max-w-3xl text-center">
               <p className="text-sm font-black uppercase tracking-[0.24em] text-green-700">Residential mowing</p>
@@ -572,7 +572,7 @@ function Home() {
         </section>
 
         {/* Services Section */}
-        <section id="services" className="py-32 px-4 sm:px-6 lg:px-8 bg-white border-b">
+        <section id="services" className="order-3 py-32 px-4 sm:px-6 lg:px-8 bg-white border-b">
           <div className="mx-auto max-w-7xl">
             <h2 className="text-5xl font-black text-gray-900 text-center mb-20 uppercase italic tracking-tighter">Full Service List</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-5xl mx-auto">
@@ -605,7 +605,7 @@ function Home() {
         </section>
 
         {/* Contact Section - MOVED UP */}
-        <section id="quote" className="py-32 px-4 sm:px-6 lg:px-8 bg-green-600 text-white">
+        <section id="quote" className="order-4 py-32 px-4 sm:px-6 lg:px-8 bg-green-600 text-white">
           <div className="mx-auto max-w-4xl text-center">
             <div className="mb-20">
               <h2 className="text-6xl font-black uppercase italic tracking-tighter mb-6 leading-none">Get Your Free Quote</h2>
@@ -701,7 +701,7 @@ function Home() {
         </section>
 
         {/* Gallery Section - Coming Soon */}
-        <section id="gallery" className="py-32 px-4 sm:px-6 lg:px-8 bg-gray-50 border-b">
+        <section id="gallery" className="order-6 py-32 px-4 sm:px-6 lg:px-8 bg-gray-50 border-b">
           <div className="mx-auto max-w-7xl">
             <div className="text-center mb-20">
               <h2 className="text-5xl font-black text-gray-900 mb-6 uppercase italic tracking-tighter">Recent Work</h2>
@@ -743,7 +743,7 @@ function Home() {
         </section>
 
         {/* Meet Trey Section */}
-        <section id="about" className="py-32 px-4 sm:px-6 lg:px-8 bg-white border-b">
+        <section id="about" className="order-7 py-32 px-4 sm:px-6 lg:px-8 bg-white border-b">
           <div className="mx-auto max-w-5xl text-center md:text-left">
             <div className="flex flex-col md:flex-row items-center gap-16 bg-green-50 rounded-[40px] p-10 md:p-20 shadow-xl border-4 border-green-200/50">
               <div className="w-full md:w-2/3">
