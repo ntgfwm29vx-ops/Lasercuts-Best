@@ -129,23 +129,6 @@ const mowingPackages: ReadonlyArray<MowingPackage> = [
     badge: 'Most Popular',
     buttonLabel: 'Select Complete',
   },
-  {
-    service: 'Premium Detail Cut',
-    title: 'Premium Detail Cut',
-    price: '$55',
-    description: 'Best for overgrown grass, overgrown edges, or lawns that need bagging.',
-    details: 'Choose Premium when your lawn needs extra work beyond normal maintenance, including overgrown cutting, edge restoration, or bagging.',
-    features: [
-      'Everything in Complete Cut',
-      'Extra cutting and cleanup for overgrown grass',
-      'Overgrown edge restoration',
-      'Grass bagging and clipping removal',
-      'The right choice when a routine cut is not enough',
-    ],
-    badge: 'Best Finish',
-    note: 'Choose Premium Detail Cut when your lawn needs more than routine maintenance. Grass bagging is included when requested.',
-    buttonLabel: 'Select Premium',
-  },
 ] as const
 
 const serviceGroups = [
@@ -173,11 +156,11 @@ const serviceGroups = [
 ] as const
 
 const addOns = [
-  ['Grass Bagging', 'Included with Premium', 'Premium Detail Cut includes bagging and clipping removal when requested.'],
-  ['Edge Restoration', 'Premium Detail Cut', 'Premium Detail Cut includes overgrown edge restoration for lawns that need more than a routine finish.'],
-  ['Overgrown Lawn', 'Premium Detail Cut', 'Premium is the right choice when extra cutting, passes, or cleanup are needed beyond routine maintenance.'],
-  ['Every-Other-Week Service', 'About 15% more per visit', 'Bi-weekly lawns typically need more cutting, trimming, and cleanup. Basic is about $52, Complete about $58, and Premium about $63.'],
-  ['Heavy Cleanup', 'From +$10', 'May apply when unusually heavy clippings or debris require extra cleanup time.'],
+  ['Grass Bagging', 'From +$5', 'Clippings are collected and removed instead of mulched. Final price depends on lawn size and clipping volume.'],
+  ['Edge Restoration', 'From +$10', 'For sidewalks or driveways with heavily overgrown turf that needs the edge re-established.'],
+  ['Overgrown Lawn', 'From +$10', 'May apply when extra cutting, passes, or cleanup are needed beyond routine maintenance.'],
+  ['Every-Other-Week Service', 'About 15% more per visit', 'Bi-weekly lawns typically need more cutting, trimming, and cleanup. Basic is about $52, and Complete about $58.'],
+  ['Heavy Cleanup', 'From +$5', 'May apply when unusually heavy clippings or debris require extra cleanup time.'],
   ['Large / Complex Property', 'Custom quote', 'Larger yards, steep areas, extensive fencing, many obstacles, or difficult access may need customized pricing.'],
 ] as const
 
@@ -537,7 +520,7 @@ function Home() {
               </div>
             </div>
 
-            <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-stretch">
+            <div className="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 md:items-stretch">
               {mowingPackages.map((pkg) => {
                 const isPopular = pkg.badge === 'Most Popular'
 
@@ -594,7 +577,7 @@ function Home() {
 
             <div className="mx-auto mt-12 max-w-3xl rounded-3xl border border-gray-200 bg-white p-6 sm:p-8">
               <div className="flex items-center justify-center gap-2 text-center">
-                <h3 className="text-2xl font-black uppercase italic tracking-tighter text-gray-900">Possible Additional Fees</h3>
+                <h3 className="text-2xl font-black uppercase italic tracking-tighter text-gray-900">Optional Add-ons &amp; Fees</h3>
                 <span className="text-green-700">
                   <InfoTip label="About possible additional fees" message="Most regularly maintained lawns stay near their quoted recurring price. These only apply when extra labor, disposal, or specialty work is needed." />
                 </span>
@@ -721,7 +704,7 @@ function Home() {
                   <select name="service" required value={selectedService} onChange={(event) => setSelectedService(event.target.value)} className="block w-full rounded-2xl border-4 border-gray-100 bg-gray-50 px-6 py-5 text-xl font-bold focus:border-green-600 focus:bg-white transition-all outline-none cursor-pointer appearance-none">
                     <option value="" disabled>Select a service...</option>
                     <optgroup label="Mowing Packages">
-                      {quoteServiceValues.slice(0, 3).map((service) => (
+                      {quoteServiceValues.slice(0, 2).map((service) => (
                         <option key={service}>{service}</option>
                       ))}
                     </optgroup>
