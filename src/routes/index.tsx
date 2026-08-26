@@ -437,16 +437,16 @@ function Home() {
               <div className="w-full sm:w-auto flex flex-col gap-3">
                 <button
                   type="button"
-                  onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
                   className="w-full rounded-full bg-white px-12 py-5 text-xl font-black text-green-800 shadow-xl transition-all hover:bg-gray-100 uppercase tracking-tighter text-center"
                 >
-                  View Services
+                  Mowing Pricing
                 </button>
                 <button 
-                  onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
                   className="text-sm font-black uppercase tracking-widest text-gray-300 hover:text-white transition-colors"
                 >
-                  Choose a service ↓
+                  See mowing prices ↓
                 </button>
               </div>
             </div>
