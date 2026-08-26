@@ -1,6 +1,6 @@
 import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useMutation } from 'convex/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { api } from '../../convex/_generated/api'
 import {
   BASE_CUT_PRICE,
@@ -92,6 +92,7 @@ type MowingPackage = {
   title: string
   price: string
   description: string
+  details: string
   features: readonly string[]
   badge?: string
   note?: string
@@ -104,6 +105,7 @@ const mowingPackages: readonly MowingPackage[] = [
     title: 'Basic Cut',
     price: '$45',
     description: 'A reliable, clean cut for regularly maintained lawns.',
+    details: 'Best for lawns that are cut regularly and only need routine mowing, weed eating, mulching, and blow-off.',
     features: [
       'Clean, reliable lawn mowing',
       'Weed eating around the property',
@@ -117,6 +119,7 @@ const mowingPackages: readonly MowingPackage[] = [
     title: 'Complete Cut',
     price: '$50',
     description: 'Our most popular option for a complete, sharp regular-maintenance finish.',
+    details: 'Choose Complete for everything in Basic Cut plus precise blade edging and more detailed cleanup around the property.',
     features: [
       'Everything in Basic Cut',
       'More detailed weed eating around landscaping, fences, and obstacles',
@@ -131,6 +134,7 @@ const mowingPackages: readonly MowingPackage[] = [
     title: 'Premium Detail Cut',
     price: '$55',
     description: 'Best for overgrown grass, overgrown edges, or lawns that need bagging.',
+    details: 'Choose Premium when your lawn needs extra work beyond normal maintenance, including overgrown cutting, edge restoration, or bagging.',
     features: [
       'Everything in Complete Cut',
       'Extra cutting and cleanup for overgrown grass',
@@ -142,14 +146,6 @@ const mowingPackages: readonly MowingPackage[] = [
     note: 'Choose Premium Detail Cut when your lawn needs more than routine maintenance. Grass bagging is included when requested.',
     buttonLabel: 'Select Premium',
   },
-] as const
-
-const serviceDefinitions = [
-  ['String Trimming / Weed Eating', 'Cuts grass around trees, fences, landscaping, mailboxes, and other areas the mower cannot reach.'],
-  ['String Edging', 'Uses a string trimmer to create a clean grass line along sidewalks and driveway edges.'],
-  ['Blade Edging', 'Uses a dedicated edging blade for a sharper, professionally defined edge between turf and concrete.'],
-  ['Grass Mulching', 'Finely cuts clippings and returns them to the lawn when conditions allow.'],
-  ['Grass Bagging', 'Collects clippings instead of returning them to the lawn. It is included with Premium Detail Cut when requested.'],
 ] as const
 
 const serviceGroups = [
@@ -184,6 +180,62 @@ const addOns = [
   ['Heavy Cleanup', 'From +$10', 'May apply when unusually heavy clippings or debris require extra cleanup time.'],
   ['Large / Complex Property', 'Custom quote', 'Larger yards, steep areas, extensive fencing, many obstacles, or difficult access may need customized pricing.'],
 ] as const
+
+function InfoTip({ label, message }: { label: string; message: string }) {
+  const [isOpen, setIsOpen] = useState(false)
+  const infoRef = useRef<HTMLSpanElement>(null)
+
+  useEffect(() => {
+    if (!isOpen) {
+      return
+    }
+
+    const closeTip = (event: PointerEvent) => {
+      if (!infoRef.current?.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('pointerdown', closeTip)
+    document.addEventListener('keydown', closeOnEscape)
+
+    return () => {
+      document.removeEventListener('pointerdown', closeTip)
+      document.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [isOpen])
+
+  return (
+    <span
+      ref={infoRef}
+      className="relative inline-flex"
+      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
+    >
+      <button
+        type="button"
+        aria-label={label}
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen((open) => !open)}
+        onFocus={() => setIsOpen(true)}
+        className="inline-flex size-5 items-center justify-center rounded-full border border-current text-[0.7rem] font-black leading-none transition hover:bg-green-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-green-600/40"
+      >
+        i
+      </button>
+      {isOpen && (
+        <span role="tooltip" className="absolute bottom-[calc(100%+0.65rem)] left-1/2 z-30 w-64 -translate-x-1/2 rounded-2xl bg-gray-900 px-4 py-3 text-left text-sm font-medium normal-case tracking-normal text-white shadow-xl">
+          {message}
+        </span>
+      )}
+    </span>
+  )
+}
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -470,7 +522,10 @@ function Home() {
               <p className="text-sm font-black uppercase tracking-[0.24em] text-green-700">Residential mowing</p>
               <h2 className="mt-3 text-4xl font-black uppercase italic tracking-tighter text-gray-900 sm:text-5xl">Simple Pricing</h2>
               <div className="mt-6 rounded-3xl bg-green-600 px-6 py-5 text-white shadow-xl shadow-green-600/20">
-                <p className="text-xl font-black uppercase tracking-tight">New Customer Special — First Cut {NEW_CUSTOMER_PRICE}</p>
+                <p className="flex items-center justify-center gap-2 text-xl font-black uppercase tracking-tight">
+                  New Customer Special — First Cut {NEW_CUSTOMER_PRICE}
+                  <InfoTip label="About the first-cut special" message="For new residential mowing customers with standard-size yards. Final pricing is confirmed after reviewing your property." />
+                </p>
                 <p className="mt-1 text-sm font-bold text-green-100">New residential mowing customers only. Standard-size yards.</p>
                 <button
                   type="button"
@@ -500,13 +555,23 @@ function Home() {
                         {pkg.badge}
                       </span>
                     )}
-                    <h3 className="text-3xl font-black uppercase italic tracking-tighter text-gray-900">{pkg.title}</h3>
+                    <div className="flex items-center justify-center gap-2">
+                      <h3 className="text-3xl font-black uppercase italic tracking-tighter text-gray-900">{pkg.title}</h3>
+                      <span className="text-green-700">
+                        <InfoTip label={`About the ${pkg.title} package`} message={pkg.details} />
+                      </span>
+                    </div>
                     <p className="mt-3 min-h-12 text-base font-medium leading-relaxed text-gray-600">{pkg.description}</p>
                     <div className="mt-6 flex items-baseline justify-center gap-1 text-gray-900">
                       <span className="text-5xl font-black tracking-tighter">{pkg.price}</span>
                       <span className="text-lg font-bold text-gray-500">/ cut</span>
                     </div>
-                    <p className="mt-1 text-sm font-bold text-gray-500">Starting price for routine residential lawns</p>
+                    <p className="mt-1 flex items-center justify-center gap-2 text-sm font-bold text-gray-500">
+                      Starting price for routine residential lawns
+                      <span className="text-green-700">
+                        <InfoTip label="About starting prices" message="Starting prices apply to standard residential properties. Lawn size, condition, obstacles, access, and requested work can affect the final quote." />
+                      </span>
+                    </p>
                     <ul className="mt-7 w-full space-y-3 text-center text-sm font-bold leading-snug text-gray-700">
                       {pkg.features.map((feature) => (
                         <li key={feature} className="flex items-start justify-center gap-3"><span className="shrink-0 text-green-600">✓</span><span>{feature}</span></li>
@@ -527,34 +592,25 @@ function Home() {
               })}
             </div>
 
-            <div className="mt-12 grid gap-5 lg:grid-cols-2">
-              <div className="rounded-3xl border border-gray-200 bg-white p-6 sm:p-8">
-                <h3 className="text-2xl font-black uppercase italic tracking-tighter text-gray-900">What&apos;s Included?</h3>
-                <div className="mt-5 divide-y divide-gray-100">
-                  {serviceDefinitions.map(([title, description]) => (
-                    <details key={title} className="group py-3">
-                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-black text-gray-800">
-                        {title}<span className="text-green-600 transition group-open:rotate-45">+</span>
-                      </summary>
-                      <p className="pt-3 text-sm leading-relaxed text-gray-600">{description}</p>
-                    </details>
-                  ))}
-                </div>
+            <div className="mx-auto mt-12 max-w-3xl rounded-3xl border border-gray-200 bg-white p-6 sm:p-8">
+              <div className="flex items-center justify-center gap-2 text-center">
+                <h3 className="text-2xl font-black uppercase italic tracking-tighter text-gray-900">Possible Additional Fees</h3>
+                <span className="text-green-700">
+                  <InfoTip label="About possible additional fees" message="Most regularly maintained lawns stay near their quoted recurring price. These only apply when extra labor, disposal, or specialty work is needed." />
+                </span>
               </div>
-
-              <div className="rounded-3xl border border-gray-200 bg-white p-6 sm:p-8">
-                <h3 className="text-2xl font-black uppercase italic tracking-tighter text-gray-900">Add-ons &amp; Possible Additional Fees</h3>
-                <p className="mt-3 text-sm leading-relaxed text-gray-600">Most regularly maintained lawns stay near their quoted recurring price. These apply only when extra labor, disposal, or specialty work is needed.</p>
-                <div className="mt-4 divide-y divide-gray-100">
-                  {addOns.map(([title, price, description]) => (
-                    <details key={title} className="group py-3">
-                      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-black text-gray-800">
-                        <span>{title}</span><span className="shrink-0 text-sm text-green-700">{price} <span className="ml-1 text-green-600 transition group-open:rotate-45">+</span></span>
-                      </summary>
-                      <p className="pt-3 text-sm leading-relaxed text-gray-600">{description}</p>
-                    </details>
-                  ))}
-                </div>
+              <div className="mt-5 divide-y divide-gray-100">
+                {addOns.map(([title, price, description]) => (
+                  <div key={title} className="flex items-center justify-between gap-4 py-4 text-gray-800">
+                    <span className="flex items-center gap-2 font-black">
+                      {title}
+                      <span className="text-green-700">
+                        <InfoTip label={`About ${title}`} message={description} />
+                      </span>
+                    </span>
+                    <span className="shrink-0 text-right text-sm font-black text-green-700">{price}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
