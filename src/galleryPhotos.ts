@@ -29,7 +29,7 @@ export const galleryPhotos = [
   },
 ]
 
-export const galleryAlbums: Record<string, { src: string; alt: string }[]> = {
+export const galleryAlbums: Record<string, Array<{ src: string; alt: string }>> = {
   'before-and-after': [
     {
       src: '/gallery/lawn-care-before-after.png',

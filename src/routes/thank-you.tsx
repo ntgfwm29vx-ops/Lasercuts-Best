@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import { BUSINESS_EMAIL, BUSINESS_PHONE } from '../../businessConfig'
 import { SiteMenu } from '../components/SiteMenu'
 

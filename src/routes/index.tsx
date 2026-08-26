@@ -93,13 +93,13 @@ type MowingPackage = {
   price: string
   description: string
   details: string
-  features: readonly string[]
+  features: ReadonlyArray<string>
   badge?: string
   note?: string
   buttonLabel: string
 }
 
-const mowingPackages: readonly MowingPackage[] = [
+const mowingPackages: ReadonlyArray<MowingPackage> = [
   {
     service: 'Basic Cut',
     title: 'Basic Cut',
@@ -572,16 +572,16 @@ function Home() {
                         <InfoTip label="About starting prices" message="Starting prices apply to standard residential properties. Lawn size, condition, obstacles, access, and requested work can affect the final quote." />
                       </span>
                     </p>
-                    <ul className="mt-7 w-full space-y-3 text-center text-sm font-bold leading-snug text-gray-700">
+                    <ul className="mx-auto mt-7 w-full max-w-md space-y-3 text-left text-sm font-bold leading-snug text-gray-700">
                       {pkg.features.map((feature) => (
-                        <li key={feature} className="flex items-start justify-center gap-3"><span className="shrink-0 text-green-600">✓</span><span>{feature}</span></li>
+                        <li key={feature} className="grid grid-cols-[1rem_minmax(0,1fr)] items-start gap-3"><span className="pt-px text-green-600">✓</span><span>{feature}</span></li>
                       ))}
                     </ul>
                     {pkg.note && <p className="mt-5 rounded-2xl bg-gray-50 p-4 text-center text-sm font-medium leading-relaxed text-gray-600">{pkg.note}</p>}
                     <button
                       type="button"
                       onClick={() => selectPackage(pkg.service)}
-                      className={`mt-8 w-full rounded-2xl px-5 py-4 text-base font-black uppercase tracking-tight transition ${
+                      className={`mt-auto w-full rounded-2xl px-5 py-4 pt-4 text-base font-black uppercase tracking-tight transition ${
                         isPopular ? 'bg-green-600 text-white shadow-lg shadow-green-600/20 hover:bg-green-700' : 'bg-gray-900 text-white hover:bg-black'
                       }`}
                     >
