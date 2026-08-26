@@ -128,15 +128,16 @@ const mowingPackages: readonly MowingPackage[] = [
   {
     service: 'Premium Detail Cut',
     title: 'Premium Detail Cut',
-    price: '$60',
+    price: '$55',
     description: 'The best choice for the sharpest curb appeal and finished edges.',
     features: [
       'Everything in Complete Cut',
       'Complete and precise blade edging',
+      'Grass bagging and clipping removal',
       'Our sharpest, most professional-looking finish',
     ],
     badge: 'Best Finish',
-    note: 'Grass bagging can be added when requested. Additional charge may apply based on lawn size and clipping volume.',
+    note: 'Grass bagging is included with Premium Detail Cut when requested.',
     buttonLabel: 'Select Premium',
   },
 ] as const
