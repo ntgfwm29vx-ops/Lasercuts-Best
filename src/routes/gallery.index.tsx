@@ -1,5 +1,5 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
-import { BUSINESS_NAME } from '../../businessConfig'
+import { BUSINESS_NAME, DEFAULT_SITE_URL } from '../../businessConfig'
 import { SiteMenu } from '../components/SiteMenu'
 import { galleryPhotos } from '../galleryPhotos'
 
@@ -7,13 +7,14 @@ export const Route = createFileRoute('/gallery/')({
   head: () => ({
     meta: [
       {
-        title: 'Gallery | Laser Cuts',
+        title: 'Lawn Care Project Gallery | Laser Cuts Fort Wayne',
       },
       {
         name: 'description',
-        content: 'Choose a Laser Cuts lawn care or landscaping project gallery.',
+        content: 'See recent Laser Cuts lawn mowing, mulch, weed spraying, and landscaping work in Fort Wayne, Indiana.',
       },
     ],
+    links: [{ rel: 'canonical', href: new URL('/gallery', DEFAULT_SITE_URL).toString() }],
   }),
   component: GalleryIndex,
 })

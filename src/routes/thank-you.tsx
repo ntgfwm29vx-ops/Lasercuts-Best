@@ -6,6 +6,7 @@ export const Route = createFileRoute('/thank-you')({
   head: () => ({
     meta: [
       { title: 'Thank You | Laser Cuts' },
+      { name: 'robots', content: 'noindex,follow' },
       {
         name: 'description',
         content: 'Thank you for requesting a Laser Cuts lawn care quote.',

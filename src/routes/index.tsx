@@ -24,8 +24,11 @@ const canonicalUrl = new URL(SITE_PATHS.home, siteUrl).toString()
 const ogImageUrl = new URL(SITE_PATHS.ogImage, siteUrl).toString()
 const localBusinessSchema = {
   '@context': 'https://schema.org',
-  '@type': 'LawnCare',
+  '@type': 'ProfessionalService',
+  additionalType: 'https://schema.org/LawnCare',
   name: BUSINESS_NAME,
+  url: siteUrl,
+  image: ogImageUrl,
   areaServed: BUSINESS_REGION,
   address: {
     '@type': 'PostalAddress',
@@ -38,6 +41,32 @@ const localBusinessSchema = {
   description:
     'Affordable lawn mowing, edging, weed control, mulch, and cleanup services in Fort Wayne and surrounding areas.',
   priceRange: `${NEW_CUSTOMER_PRICE}-${BASE_CUT_PRICE}+`,
+  knowsAbout: [
+    'Lawn mowing',
+    'String trimming',
+    'Lawn edging',
+    'Weed control',
+    'Mulch installation',
+    'Yard cleanup',
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Laser Cuts Lawn Care Services',
+    itemListElement: [
+      'Lawn mowing',
+      'String trimming',
+      'Edging',
+      'Weed spraying',
+      'Mulch installation',
+      'Yard cleanup',
+    ].map((name) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name,
+      },
+    })),
+  },
 }
 
 const featuredReviews = [
@@ -139,12 +168,12 @@ export const Route = createFileRoute('/')({
   head: () => ({
     meta: [
       {
-        title: 'Laser Cuts | Lawn Care in Fort Wayne',
+        title: 'Laser Cuts Lawn Care | Lawn Mowing in Fort Wayne, IN',
       },
       {
         name: 'description',
         content:
-          'Get a fast lawn care quote for mowing, edging, weed control, mulch, and cleanup in Fort Wayne and nearby areas.',
+          'Laser Cuts provides professional lawn mowing, trimming, edging, mulch, and residential lawn care in Fort Wayne, Indiana. Get a free quote today.',
       },
       {
         property: 'og:title',

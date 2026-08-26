@@ -1,5 +1,5 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
-import { BUSINESS_NAME } from '../../businessConfig'
+import { BUSINESS_NAME, DEFAULT_SITE_URL } from '../../businessConfig'
 import { SiteMenu } from '../components/SiteMenu'
 import { findGalleryPhoto, galleryPhotos, getGalleryAlbum } from '../galleryPhotos'
 
@@ -18,6 +18,12 @@ export const Route = createFileRoute('/gallery_/$category')({
           content: gallery
             ? `View ${gallery.title.toLowerCase()} project photos for Laser Cuts.`
             : 'View Laser Cuts project photos.',
+        },
+      ],
+      links: [
+        {
+          rel: 'canonical',
+          href: new URL(`/gallery/${params.category}`, DEFAULT_SITE_URL).toString(),
         },
       ],
     }

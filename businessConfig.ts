@@ -7,7 +7,7 @@ export const BUSINESS_REGION = 'Fort Wayne and surrounding areas'
 export const BASE_CUT_PRICE = '$45'
 export const NEW_CUSTOMER_PRICE = '$40'
 
-export const DEFAULT_SITE_URL = 'http://localhost:3000'
+export const DEFAULT_SITE_URL = 'https://www.lasercutsfw.com'
 export const SITE_PATHS = {
   home: '/',
   sitemap: '/sitemap.xml',
