@@ -526,8 +526,8 @@ function Home() {
                 return (
                   <article
                     key={pkg.service}
-                    className={`relative flex h-full flex-col items-center rounded-[30px] bg-white p-7 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-xl sm:p-8 ${
-                      isPopular ? 'border-4 border-green-600 shadow-xl lg:-translate-y-3' : 'border border-gray-200'
+                    className={`relative flex h-full w-full flex-col items-center rounded-[30px] bg-white p-6 text-center shadow-sm transition hover:shadow-xl sm:p-8 sm:hover:-translate-y-1 ${
+                      isPopular ? 'border-4 border-green-600 shadow-xl' : 'border border-gray-200'
                     }`}
                   >
                     <div className="mb-5 flex min-h-9 items-center justify-center">
@@ -539,7 +539,7 @@ function Home() {
                         </span>
                       )}
                     </div>
-                    <div className="flex min-h-9 items-center justify-center gap-2">
+                    <div className="flex min-h-10 items-center justify-center gap-2">
                       <h3 className="text-3xl font-black uppercase italic tracking-tighter text-gray-900">{pkg.title}</h3>
                       <span className="text-green-700">
                         <InfoTip label={`About the ${pkg.title} package`} message={pkg.details} />
@@ -556,16 +556,16 @@ function Home() {
                         <InfoTip label="About starting prices" message="Starting prices apply to standard residential properties. Lawn size, condition, obstacles, access, and requested work can affect the final quote." />
                       </span>
                     </p>
-                    <ul className="mx-auto mt-7 w-full max-w-md space-y-3 text-left text-[0.95rem] font-bold leading-snug text-gray-700">
+                    <ul className="mx-auto mt-7 flex w-full max-w-md flex-1 flex-col gap-3 pb-8 text-left text-[0.95rem] font-bold leading-snug text-gray-700">
                       {pkg.features.map((feature) => (
-                        <li key={feature} className="grid grid-cols-[1rem_minmax(0,1fr)] items-start gap-2.5"><span className="pt-px text-green-600">✓</span><span>{feature}</span></li>
+                        <li key={feature} className="grid grid-cols-[1.25rem_minmax(0,1fr)] items-start gap-2"><span className="pt-px text-green-600">✓</span><span>{feature}</span></li>
                       ))}
                     </ul>
                     {pkg.note && <p className="mt-5 rounded-2xl bg-gray-50 p-4 text-center text-sm font-medium leading-relaxed text-gray-600">{pkg.note}</p>}
                     <button
                       type="button"
                       onClick={() => selectPackage(pkg.service)}
-                      className={`mt-auto w-full rounded-2xl px-5 py-4 pt-4 text-base font-black uppercase tracking-tight transition ${
+                      className={`mt-auto w-full rounded-2xl px-5 py-4 text-base font-black uppercase tracking-tight transition ${
                         isPopular ? 'bg-green-600 text-white shadow-lg shadow-green-600/20 hover:bg-green-700' : 'bg-gray-900 text-white hover:bg-black'
                       }`}
                     >
@@ -585,14 +585,14 @@ function Home() {
               </div>
               <div className="mt-5 divide-y divide-gray-100">
                 {addOns.map(([title, price, description]) => (
-                  <div key={title} className="flex items-center justify-between gap-4 py-4 text-gray-800">
-                    <span className="flex items-center gap-2 font-black">
+                  <div key={title} className="flex items-start justify-between gap-3 py-4 text-gray-800">
+                    <span className="flex min-w-0 items-center gap-2 font-black">
                       {title}
                       <span className="text-green-700">
                         <InfoTip label={`About ${title}`} message={description} />
                       </span>
                     </span>
-                    <span className="shrink-0 text-right text-sm font-black text-green-700">{price}</span>
+                    <span className="max-w-28 shrink-0 text-right text-sm font-black leading-tight text-green-700">{price}</span>
                   </div>
                 ))}
               </div>
@@ -616,7 +616,7 @@ function Home() {
           <div className="mx-auto max-w-7xl">
             <div className="mx-auto mb-16 max-w-3xl text-center">
               <p className="text-sm font-black uppercase tracking-[0.24em] text-green-700">Available By Request</p>
-              <h2 className="mt-3 text-5xl font-black uppercase italic tracking-tighter text-gray-900">Special Request Services</h2>
+              <h2 className="mt-3 text-4xl font-black uppercase italic tracking-tighter text-gray-900 sm:text-5xl">Special Request Services</h2>
               <p className="mt-5 text-lg font-medium leading-relaxed text-gray-600">Mowing is our main service. Need help with something else outside the regular mowing packages? Request one of these services for a custom quote.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-5xl mx-auto">
@@ -652,7 +652,7 @@ function Home() {
         <section id="quote" className="order-2 py-32 px-4 sm:px-6 lg:px-8 bg-green-600 text-white">
           <div className="mx-auto max-w-4xl text-center">
             <div className="mb-20">
-              <h2 className="text-6xl font-black uppercase italic tracking-tighter mb-6 leading-none">Get Your Free Quote</h2>
+              <h2 className="mb-6 text-4xl font-black uppercase italic leading-none tracking-tighter sm:text-6xl">Get Your Free Quote</h2>
               <div className="mt-10 space-y-6">
                 <p className="text-2xl font-black uppercase tracking-tight flex items-center justify-center gap-4">
                     <span>📱</span> Call or Text: <a href={`tel:${BUSINESS_PHONE.replace(/-/g, '')}`} className="underline decoration-white/30 hover:decoration-white transition-all">{phone}</a>
@@ -748,7 +748,7 @@ function Home() {
         <section id="gallery" className="order-6 py-32 px-4 sm:px-6 lg:px-8 bg-gray-50 border-b">
           <div className="mx-auto max-w-7xl">
             <div className="text-center mb-20">
-              <h2 className="text-5xl font-black text-gray-900 mb-6 uppercase italic tracking-tighter">Recent Work</h2>
+              <h2 className="mb-6 text-4xl font-black uppercase italic tracking-tighter text-gray-900 sm:text-5xl">Recent Work</h2>
               <div className="inline-block bg-green-600 text-white px-6 py-2 rounded-full text-sm font-black uppercase tracking-widest mb-6 shadow-lg shadow-green-600/20">
                 📷 Reference Photos
               </div>
@@ -786,39 +786,13 @@ function Home() {
           </div>
         </section>
 
-        {/* Meet Trey Section */}
-        <section id="about" className="order-7 py-32 px-4 sm:px-6 lg:px-8 bg-white border-b">
-          <div className="mx-auto max-w-5xl text-center md:text-left">
-            <div className="flex flex-col md:flex-row items-center gap-16 bg-green-50 rounded-[40px] p-10 md:p-20 shadow-xl border-4 border-green-200/50">
-              <div className="w-full md:w-2/3">
-                <h2 className="text-5xl font-black text-gray-900 uppercase italic tracking-tighter mb-10 leading-none">Meet the Owner</h2>
-                <div className="space-y-6 text-xl font-medium text-gray-700 leading-relaxed">
-                  <p>
-                    <strong className="text-2xl font-black text-green-700 block mb-2 uppercase tracking-tight">My name is Trey Torres.</strong> 
-                    I'm a senior at Carroll High School and a future track athlete at the University of Saint Francis.
-                  </p>
-                  <p>
-                    I started this business to save and invest toward my goal of owning Section 8 rental properties here in Fort Wayne. 
-                  </p>
-                  <p>
-                    Earning a full athletic scholarship has allowed me to keep my prices competitive while still delivering high-quality, reliable service. I bring the same hard work and discipline to your lawn that I bring to the track each day.
-                  </p>
-                </div>
-                <div className="mt-12 flex flex-wrap justify-center md:justify-start gap-4">
-                  <div className="px-6 py-3 bg-green-600 text-white rounded-2xl text-sm font-black uppercase tracking-widest shadow-lg shadow-green-600/20">🏃‍♂️ Track Athlete</div>
-                  <div className="px-6 py-3 bg-gray-900 text-white rounded-2xl text-sm font-black uppercase tracking-widest shadow-lg shadow-black/20">🎓 Senior @ Carroll</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
 
       <footer className="bg-gray-900 text-gray-400 py-24 px-4 border-t border-white/5 text-center">
         <div className="max-w-7xl mx-auto flex flex-col items-center">
           <div className="flex items-center justify-center gap-2 mb-8">
             <div className="size-14 rounded-xl bg-green-600 flex items-center justify-center text-white font-black italic text-2xl shadow-xl shadow-green-600/20">L</div>
-            <span className="text-4xl font-black tracking-tighter text-white uppercase italic">Laser Cuts Mowing</span>
+            <span className="text-center text-2xl font-black tracking-tighter text-white uppercase italic sm:text-4xl">Laser Cuts Mowing</span>
           </div>
           <p className="text-white font-black mb-6 tracking-widest text-2xl uppercase italic leading-none">LASERCUTSFW.COM</p>
           <p className="font-bold text-lg text-gray-500 mb-10">© {new Date().getFullYear()} Laser Cuts Mowing. All rights reserved.</p>

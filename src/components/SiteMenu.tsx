@@ -9,7 +9,6 @@ const mainLinks = [
   { label: 'Services', href: '/#services' },
   { label: 'Free Quote', href: '/#quote' },
   { label: 'Recent Work', href: '/#gallery' },
-  { label: 'Meet Trey', href: '/#about' },
 ]
 
 export function SiteMenu() {
