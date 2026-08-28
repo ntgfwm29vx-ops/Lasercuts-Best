@@ -108,8 +108,8 @@ const mowingPackages: ReadonlyArray<MowingPackage> = [
     details: 'Best for lawns that are cut regularly and only need routine mowing, weed eating, mulching, and blow-off.',
     features: [
       'Clean, reliable lawn mowing',
-      'Weed eating around the property',
-      'Grass clippings mulched when conditions allow',
+      'String trimming and proper clean up',
+      'Mulch grass clippings',
       'Driveway and sidewalk blow-off',
     ],
     buttonLabel: 'Select Basic',
@@ -158,7 +158,8 @@ const addOns = [
   ['Excessive Bagging', '+$5', 'Clippings are collected and removed instead of mulched when the amount of grass requires extra bagging and disposal.'],
   ['Edge Restoration', '+$5', 'For sidewalks or driveways with heavily overgrown turf that needs the edge re-established.'],
   ['Overgrown Lawn', '+$5', 'May apply when extra cutting, passes, or cleanup are needed beyond routine maintenance.'],
-  ['Every-Other-Week Service', '+$5', 'Bi-weekly lawns typically need more cutting, trimming, and cleanup than weekly service.'],
+  ['Biweekly Add-On', '+$5', 'Biweekly lawns typically need more cutting, trimming, and cleanup than weekly service.'],
+  ['Excessive Pet Waste / Obstacles', '+$5', 'May apply when excessive pet waste, toys, hoses, debris, or other obstacles require additional time before mowing can begin.'],
   ['Heavy Cleanup', 'From +$5', 'May apply when unusually heavy clippings or debris require extra cleanup time.'],
   ['Large / Complex Property', 'Custom quote', 'Larger yards, steep areas, extensive fencing, many obstacles, or difficult access may need customized pricing.'],
 ] as const
