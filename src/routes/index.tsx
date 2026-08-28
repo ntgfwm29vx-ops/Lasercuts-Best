@@ -122,7 +122,7 @@ const mowingPackages: ReadonlyArray<MowingPackage> = [
     details: 'Choose Complete for everything in Basic Cut plus precise blade edging and more detailed cleanup around the property.',
     features: [
       'Everything in Basic Cut',
-      'More detailed weed eating around landscaping, fences, and obstacles',
+      'Detailed weed eating and clean up',
       'Complete and precise blade edging',
       'Detailed cleanup for a polished finish',
     ],
