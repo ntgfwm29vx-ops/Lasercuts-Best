@@ -606,7 +606,7 @@ function Home() {
               <p className="mx-auto mt-3 max-w-xl text-base font-medium leading-relaxed text-gray-300">Tell us about your property and we&apos;ll recommend the right service.</p>
               <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <button type="button" onClick={() => document.getElementById('quote')?.scrollIntoView({ behavior: 'smooth' })} className="rounded-2xl bg-green-600 px-8 py-4 text-base font-black uppercase tracking-tight text-white transition hover:bg-green-500">Get a Free Quote</button>
-                <a href={`tel:${BUSINESS_PHONE.replace(/-/g, '')}`} className="rounded-2xl bg-white px-8 py-4 text-base font-black uppercase tracking-tight text-green-700 transition hover:bg-green-50">Call {BUSINESS_PHONE}</a>
+                <a href={`mailto:${BUSINESS_EMAIL}`} className="rounded-2xl bg-white px-8 py-4 text-base font-black uppercase tracking-tight text-green-700 transition hover:bg-green-50">Email Us</a>
               </div>
             </div>
           </div>
