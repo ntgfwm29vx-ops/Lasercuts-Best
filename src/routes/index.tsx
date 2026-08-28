@@ -407,7 +407,6 @@ function Home() {
           </div>
           
           <div className="relative z-10 mx-auto max-w-4xl px-4 text-center">
-            <p className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-green-300">Laser Cuts Mowing • Fort Wayne, Indiana</p>
             <div className="mb-8 inline-flex items-center gap-2 rounded-full bg-green-600 px-5 py-2 text-sm font-black tracking-widest uppercase animate-bounce shadow-lg shadow-green-500/20">
               <span className="text-xl">🔥</span> Special Offer: {NEW_CUSTOMER_PRICE} First Cut
             </div>
@@ -443,10 +442,10 @@ function Home() {
                   Mowing Pricing
                 </button>
                 <button 
-                  onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
                   className="text-sm font-black uppercase tracking-widest text-gray-300 hover:text-white transition-colors"
                 >
-                  See mowing prices ↓
+                  View special request services ↓
                 </button>
               </div>
             </div>
@@ -454,7 +453,7 @@ function Home() {
         </section>
 
         {/* Reviews Section */}
-        <section id="reviews" className="order-2 bg-white px-4 py-20 sm:px-6 lg:px-8 border-b">
+        <section id="reviews" className="order-4 bg-white px-4 py-20 sm:px-6 lg:px-8 border-b">
           <div className="mx-auto max-w-7xl">
             <div className="mx-auto mb-14 max-w-3xl text-center">
               <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-yellow-100 px-5 py-2 text-xs font-black uppercase tracking-[0.25em] text-yellow-700">
@@ -499,7 +498,7 @@ function Home() {
         </section>
 
         {/* Pricing Section */}
-        <section id="pricing" className="order-5 border-b bg-gray-50 px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
+        <section id="pricing" className="order-3 border-b bg-gray-50 px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="mx-auto max-w-3xl text-center">
               <p className="text-sm font-black uppercase tracking-[0.24em] text-green-700">Residential mowing</p>
@@ -613,7 +612,7 @@ function Home() {
         </section>
 
         {/* Services Section */}
-        <section id="services" className="order-3 py-32 px-4 sm:px-6 lg:px-8 bg-white border-b">
+        <section id="services" className="order-5 py-32 px-4 sm:px-6 lg:px-8 bg-white border-b">
           <div className="mx-auto max-w-7xl">
             <div className="mx-auto mb-16 max-w-3xl text-center">
               <p className="text-sm font-black uppercase tracking-[0.24em] text-green-700">Available By Request</p>
@@ -650,7 +649,7 @@ function Home() {
         </section>
 
         {/* Contact Section - MOVED UP */}
-        <section id="quote" className="order-4 py-32 px-4 sm:px-6 lg:px-8 bg-green-600 text-white">
+        <section id="quote" className="order-2 py-32 px-4 sm:px-6 lg:px-8 bg-green-600 text-white">
           <div className="mx-auto max-w-4xl text-center">
             <div className="mb-20">
               <h2 className="text-6xl font-black uppercase italic tracking-tighter mb-6 leading-none">Get Your Free Quote</h2>
