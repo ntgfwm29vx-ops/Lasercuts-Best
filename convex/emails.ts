@@ -151,13 +151,13 @@ export const deliverQuoteEmail = internalAction({
               ${safeMessage}
             </p>
             <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;" />
-            <p style="font-size: 12px; color: #666;">This request was sent from the Laser Cuts website.</p>
+            <p style="font-size: 12px; color: #666;">This request was sent from the Laser Cuts Mowing website.</p>
           </div>
         `,
       })
 
       const telegramMessage = [
-        'New Laser Cuts quote',
+        'New Laser Cuts Mowing quote',
         `Name: ${quote.name}`,
         `Phone: ${quote.phone}`,
         `Email: ${quote.email}`,
@@ -177,7 +177,7 @@ export const deliverQuoteEmail = internalAction({
 
       if (resendTextTo) {
         const smsMessage = [
-          'New Laser Cuts quote',
+          'New Laser Cuts Mowing quote',
           `${quote.name} • ${quote.phone}`,
           quote.service,
           quote.address,

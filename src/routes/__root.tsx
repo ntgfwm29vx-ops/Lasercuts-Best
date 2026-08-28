@@ -27,12 +27,12 @@ export const Route = createRootRouteWithContext<{
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'Laser Cuts Lawn Care',
+        title: 'Laser Cuts Mowing | Lawn Mowing in Fort Wayne, IN',
       },
       {
         name: 'description',
         content:
-          'Affordable lawn mowing, edging, weed control, and cleanup services in Fort Wayne and surrounding areas.',
+          'Laser Cuts Mowing provides reliable residential lawn mowing in Fort Wayne and surrounding areas, with select outdoor services available by request.',
       },
       {
         name: 'theme-color',
@@ -63,9 +63,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
-        <meta property="og:site_name" content="Laser Cuts" />
-        <meta name="application-name" content="Laser Cuts" />
-        <meta name="apple-mobile-web-app-title" content="Laser Cuts" />
+        <meta property="og:site_name" content="Laser Cuts Mowing" />
+        <meta name="application-name" content="Laser Cuts Mowing" />
+        <meta name="apple-mobile-web-app-title" content="Laser Cuts Mowing" />
         <meta name="robots" content="index,follow" />
         <meta name="format-detection" content="telephone=yes" />
         <link rel="preconnect" href={siteUrl} />

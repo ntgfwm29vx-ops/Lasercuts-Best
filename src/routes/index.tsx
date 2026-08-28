@@ -39,7 +39,7 @@ const localBusinessSchema = {
   telephone: BUSINESS_PHONE,
   email: BUSINESS_EMAIL,
   description:
-    'Affordable lawn mowing, edging, weed control, mulch, and cleanup services in Fort Wayne and surrounding areas.',
+    'Mowing-first residential lawn care with optional edging, weed control, mulch, and cleanup services in Fort Wayne and surrounding areas.',
   priceRange: `${NEW_CUSTOMER_PRICE}-${BASE_CUT_PRICE}+`,
   knowsAbout: [
     'Lawn mowing',
@@ -51,7 +51,7 @@ const localBusinessSchema = {
   ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
-    name: 'Laser Cuts Lawn Care Services',
+    name: 'Laser Cuts Mowing Services',
     itemListElement: [
       'Lawn mowing',
       'String trimming',
@@ -133,10 +133,9 @@ const mowingPackages: ReadonlyArray<MowingPackage> = [
 
 const serviceGroups = [
   {
-    title: 'Lawn Maintenance',
+    title: 'Yard Care Requests',
     icon: '🌱',
     services: [
-      ['Professional Lawn Mowing', 'Professional Mowing'],
       ['String Trimming / Weed Whacking', 'String Trimming / Weed Whacking'],
       ['Professional Edging', 'Sidewalk & Driveway Edging'],
       ['Weed Removal & Pulling', 'Weed Removal & Pulling'],
@@ -144,7 +143,7 @@ const serviceGroups = [
     ],
   },
   {
-    title: 'Landscaping & More',
+    title: 'Landscaping Requests',
     icon: '🌿',
     services: [
       ['Mulch & Rock Installation', 'Mulch Installation'],
@@ -224,21 +223,21 @@ export const Route = createFileRoute('/')({
   head: () => ({
     meta: [
       {
-        title: 'Laser Cuts Lawn Care | Lawn Mowing in Fort Wayne, IN',
+        title: 'Laser Cuts Mowing | Lawn Mowing in Fort Wayne, IN',
       },
       {
         name: 'description',
         content:
-          'Laser Cuts provides professional lawn mowing, trimming, edging, mulch, and residential lawn care in Fort Wayne, Indiana. Get a free quote today.',
+          'Laser Cuts Mowing provides professional residential lawn mowing in Fort Wayne, Indiana. Get a free quote for mowing or special-request outdoor services today.',
       },
       {
         property: 'og:title',
-        content: 'Laser Cuts | Lawn Care in Fort Wayne',
+        content: 'Laser Cuts Mowing | Lawn Mowing in Fort Wayne',
       },
       {
         property: 'og:description',
         content:
-          'Reliable, clean, and affordable lawn mowing and outdoor services with simple pricing and quick quote requests.',
+          'Reliable residential lawn mowing with straightforward pricing and special-request outdoor services in Fort Wayne.',
       },
       {
         property: 'og:type',
@@ -258,12 +257,12 @@ export const Route = createFileRoute('/')({
       },
       {
         name: 'twitter:title',
-        content: 'Laser Cuts | Lawn Care in Fort Wayne',
+        content: 'Laser Cuts Mowing | Lawn Mowing in Fort Wayne',
       },
       {
         name: 'twitter:description',
         content:
-          'Reliable, clean, and affordable lawn mowing and outdoor services with simple pricing and quick quote requests.',
+          'Reliable residential lawn mowing with straightforward pricing and special-request outdoor services in Fort Wayne.',
       },
       {
         name: 'twitter:image',
@@ -383,7 +382,7 @@ function Home() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2">
             <div className="size-8 rounded bg-green-600 flex items-center justify-center text-white font-bold italic text-lg shadow-sm border border-green-500/20">L</div>
-            <span className="text-xl font-black tracking-tighter text-gray-900 uppercase italic">Laser Cuts</span>
+            <span className="whitespace-nowrap text-base font-black tracking-tighter text-gray-900 uppercase italic sm:text-xl">Laser Cuts Mowing</span>
           </div>
           <div className="flex items-center gap-6">
             <a href={`tel:${BUSINESS_PHONE.replace(/-/g, '')}`} className="hidden md:block text-lg font-bold text-green-700 hover:text-green-800 transition-colors">
@@ -408,6 +407,7 @@ function Home() {
           </div>
           
           <div className="relative z-10 mx-auto max-w-4xl px-4 text-center">
+            <p className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-green-300">Laser Cuts Mowing • Fort Wayne, Indiana</p>
             <div className="mb-8 inline-flex items-center gap-2 rounded-full bg-green-600 px-5 py-2 text-sm font-black tracking-widest uppercase animate-bounce shadow-lg shadow-green-500/20">
               <span className="text-xl">🔥</span> Special Offer: {NEW_CUSTOMER_PRICE} First Cut
             </div>
@@ -462,7 +462,7 @@ function Home() {
                 Recent Reviews
               </div>
               <h2 className="text-4xl font-black uppercase italic tracking-tighter text-gray-900 sm:text-5xl">
-                Fort Wayne Homeowners Trust Laser Cuts
+                Fort Wayne Homeowners Trust Laser Cuts Mowing
               </h2>
               <p className="mt-5 text-lg font-medium leading-relaxed text-gray-600">
                 Real feedback from recent customers who wanted clean work, fast communication, and a yard that actually looks finished when we leave.
@@ -503,7 +503,7 @@ function Home() {
           <div className="mx-auto max-w-7xl">
             <div className="mx-auto max-w-3xl text-center">
               <p className="text-sm font-black uppercase tracking-[0.24em] text-green-700">Residential mowing</p>
-              <h2 className="mt-3 text-4xl font-black uppercase italic tracking-tighter text-gray-900 sm:text-5xl">Simple Pricing</h2>
+              <h2 className="mt-3 text-4xl font-black uppercase italic tracking-tighter text-gray-900 sm:text-5xl">Mowing Services &amp; Pricing</h2>
               <div className="mt-6 rounded-3xl bg-green-600 px-6 py-5 text-white shadow-xl shadow-green-600/20">
                 <p className="flex items-center justify-center gap-2 text-xl font-black uppercase tracking-tight">
                   New Customer Special — First Cut {NEW_CUSTOMER_PRICE}
@@ -615,7 +615,11 @@ function Home() {
         {/* Services Section */}
         <section id="services" className="order-3 py-32 px-4 sm:px-6 lg:px-8 bg-white border-b">
           <div className="mx-auto max-w-7xl">
-            <h2 className="text-5xl font-black text-gray-900 text-center mb-20 uppercase italic tracking-tighter">Full Service List</h2>
+            <div className="mx-auto mb-16 max-w-3xl text-center">
+              <p className="text-sm font-black uppercase tracking-[0.24em] text-green-700">Available By Request</p>
+              <h2 className="mt-3 text-5xl font-black uppercase italic tracking-tighter text-gray-900">Special Request Services</h2>
+              <p className="mt-5 text-lg font-medium leading-relaxed text-gray-600">Mowing is our main service. Need help with something else outside the regular mowing packages? Request one of these services for a custom quote.</p>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 max-w-5xl mx-auto">
               {serviceGroups.map((group) => (
                 <div key={group.title}>
@@ -640,7 +644,7 @@ function Home() {
               ))}
             </div>
             <p className="mt-16 text-center text-gray-500 font-bold italic max-w-2xl mx-auto text-lg leading-relaxed">
-              “Don’t see your service listed? Just ask—we handle most outdoor cleanup and landscaping jobs.”
+              “Don’t see what you need? Send a request and we’ll let you know if we can help.”
             </p>
           </div>
         </section>
@@ -815,10 +819,10 @@ function Home() {
         <div className="max-w-7xl mx-auto flex flex-col items-center">
           <div className="flex items-center justify-center gap-2 mb-8">
             <div className="size-14 rounded-xl bg-green-600 flex items-center justify-center text-white font-black italic text-2xl shadow-xl shadow-green-600/20">L</div>
-            <span className="text-4xl font-black tracking-tighter text-white uppercase italic">Laser Cuts</span>
+            <span className="text-4xl font-black tracking-tighter text-white uppercase italic">Laser Cuts Mowing</span>
           </div>
           <p className="text-white font-black mb-6 tracking-widest text-2xl uppercase italic leading-none">LASERCUTSFW.COM</p>
-          <p className="font-bold text-lg text-gray-500 mb-10">© {new Date().getFullYear()} Laser Cuts Care & Landscaping. All rights reserved.</p>
+          <p className="font-bold text-lg text-gray-500 mb-10">© {new Date().getFullYear()} Laser Cuts Mowing. All rights reserved.</p>
           
           <div className="flex flex-wrap justify-center gap-x-12 gap-y-6 text-xl font-black uppercase tracking-tighter">
             <a href={`mailto:${email}`} className="hover:text-green-500 transition-colors flex items-center gap-2 text-green-500"><span>✉️</span> Email</a>
@@ -827,7 +831,7 @@ function Home() {
           </div>
           
           <div className="mt-20 max-w-2xl text-sm font-bold opacity-30 leading-relaxed uppercase tracking-widest">
-            Providing reliable and affordable lawn maintenance. Locally owned and operated by Trey Torres.
+            Mowing is our main service. Locally owned and operated by Trey Torres.
             Pricing depends on property size and condition. Laser sharp results every single time.
           </div>
         </div>

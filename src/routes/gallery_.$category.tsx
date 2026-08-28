@@ -6,7 +6,7 @@ import { findGalleryPhoto, galleryPhotos, getGalleryAlbum } from '../galleryPhot
 export const Route = createFileRoute('/gallery_/$category')({
   head: ({ params }) => {
     const gallery = findGalleryPhoto(params.category)
-    const title = gallery ? `${gallery.title} Gallery | Laser Cuts` : 'Gallery | Laser Cuts'
+    const title = gallery ? `${gallery.title} Gallery | Laser Cuts Mowing` : 'Gallery | Laser Cuts Mowing'
 
     return {
       meta: [
@@ -16,8 +16,8 @@ export const Route = createFileRoute('/gallery_/$category')({
         {
           name: 'description',
           content: gallery
-            ? `View ${gallery.title.toLowerCase()} project photos for Laser Cuts.`
-            : 'View Laser Cuts project photos.',
+            ? `View ${gallery.title.toLowerCase()} project photos for Laser Cuts Mowing.`
+            : 'View Laser Cuts Mowing project photos.',
         },
       ],
       links: [
@@ -55,9 +55,9 @@ function CategoryGallery() {
     <main className="min-h-screen bg-gray-50 text-gray-950">
       <header className="sticky top-0 z-20 bg-white/95 backdrop-blur border-b border-gray-200">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-3" aria-label="Back to Laser Cuts home">
+          <Link to="/" className="flex items-center gap-3" aria-label="Back to Laser Cuts Mowing home">
             <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-600 text-white font-black italic">L</span>
-            <span className="text-xl font-black tracking-tighter uppercase italic">{BUSINESS_NAME}</span>
+            <span className="whitespace-nowrap text-base font-black tracking-tighter uppercase italic sm:text-xl">{BUSINESS_NAME}</span>
           </Link>
           <div className="flex items-center gap-3">
             <SiteMenu />

@@ -5,11 +5,11 @@ import { SiteMenu } from '../components/SiteMenu'
 export const Route = createFileRoute('/thank-you')({
   head: () => ({
     meta: [
-      { title: 'Thank You | Laser Cuts' },
+      { title: 'Thank You | Laser Cuts Mowing' },
       { name: 'robots', content: 'noindex,follow' },
       {
         name: 'description',
-        content: 'Thank you for requesting a Laser Cuts lawn care quote.',
+        content: 'Thank you for requesting a Laser Cuts Mowing quote.',
       },
     ],
   }),
