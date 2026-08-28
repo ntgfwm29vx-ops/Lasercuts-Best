@@ -155,10 +155,10 @@ const serviceGroups = [
 ] as const
 
 const addOns = [
-  ['Grass Bagging', 'From +$5', 'Clippings are collected and removed instead of mulched. Final price depends on lawn size and clipping volume.'],
-  ['Edge Restoration', 'From +$10', 'For sidewalks or driveways with heavily overgrown turf that needs the edge re-established.'],
-  ['Overgrown Lawn', 'From +$10', 'May apply when extra cutting, passes, or cleanup are needed beyond routine maintenance.'],
-  ['Every-Other-Week Service', 'About 15% more per visit', 'Bi-weekly lawns typically need more cutting, trimming, and cleanup. Basic is about $52, and Complete about $58.'],
+  ['Excessive Bagging', '+$5', 'Clippings are collected and removed instead of mulched when the amount of grass requires extra bagging and disposal.'],
+  ['Edge Restoration', '+$5', 'For sidewalks or driveways with heavily overgrown turf that needs the edge re-established.'],
+  ['Overgrown Lawn', '+$5', 'May apply when extra cutting, passes, or cleanup are needed beyond routine maintenance.'],
+  ['Every-Other-Week Service', '+$5', 'Bi-weekly lawns typically need more cutting, trimming, and cleanup than weekly service.'],
   ['Heavy Cleanup', 'From +$5', 'May apply when unusually heavy clippings or debris require extra cleanup time.'],
   ['Large / Complex Property', 'Custom quote', 'Larger yards, steep areas, extensive fencing, many obstacles, or difficult access may need customized pricing.'],
 ] as const
