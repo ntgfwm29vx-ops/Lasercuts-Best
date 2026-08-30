@@ -5,6 +5,7 @@ import {
   createRootRouteWithContext,
 } from '@tanstack/react-router'
 import * as React from 'react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import {
   DEFAULT_SITE_URL,
   SITE_PATHS,
@@ -73,6 +74,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         {children}
         <Scripts />
+        <SpeedInsights />
       </body>
     </html>
   )
