@@ -803,6 +803,9 @@ function Home() {
             <a href={`tel:${phone.replace(/-/g, '')}`} className="hover:text-green-500 transition-colors flex items-center gap-2 text-green-500"><span>📱</span> Phone</a>
             <span className="text-gray-600 flex items-center gap-2"><span>📍</span> Fort Wayne, IN</span>
           </div>
+          <Link to="/privacy" className="mt-8 text-sm font-bold text-gray-500 underline decoration-gray-700 underline-offset-4 transition hover:text-white">
+            Privacy Policy
+          </Link>
           
           <div className="mt-20 max-w-2xl text-sm font-bold opacity-30 leading-relaxed uppercase tracking-widest">
             Mowing is our main service. Locally owned and operated by Trey Torres.

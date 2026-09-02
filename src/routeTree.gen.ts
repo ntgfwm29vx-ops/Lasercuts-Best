@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GalleryIndexRouteImport } from './routes/gallery.index'
 import { Route as GalleryCategoryRouteImport } from './routes/gallery_.$category'
@@ -17,6 +18,11 @@ import { Route as GalleryCategoryRouteImport } from './routes/gallery_.$category
 const ThankYouRoute = ThankYouRouteImport.update({
   id: '/thank-you',
   path: '/thank-you',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -37,12 +43,14 @@ const GalleryCategoryRoute = GalleryCategoryRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/privacy': typeof PrivacyRoute
   '/thank-you': typeof ThankYouRoute
   '/gallery/$category': typeof GalleryCategoryRoute
   '/gallery/': typeof GalleryIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/privacy': typeof PrivacyRoute
   '/thank-you': typeof ThankYouRoute
   '/gallery/$category': typeof GalleryCategoryRoute
   '/gallery': typeof GalleryIndexRoute
@@ -50,20 +58,33 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/privacy': typeof PrivacyRoute
   '/thank-you': typeof ThankYouRoute
   '/gallery_/$category': typeof GalleryCategoryRoute
   '/gallery/': typeof GalleryIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/thank-you' | '/gallery/$category' | '/gallery/'
+  fullPaths:
+    | '/'
+    | '/privacy'
+    | '/thank-you'
+    | '/gallery/$category'
+    | '/gallery/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/thank-you' | '/gallery/$category' | '/gallery'
-  id: '__root__' | '/' | '/thank-you' | '/gallery_/$category' | '/gallery/'
+  to: '/' | '/privacy' | '/thank-you' | '/gallery/$category' | '/gallery'
+  id:
+    | '__root__'
+    | '/'
+    | '/privacy'
+    | '/thank-you'
+    | '/gallery_/$category'
+    | '/gallery/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PrivacyRoute: typeof PrivacyRoute
   ThankYouRoute: typeof ThankYouRoute
   GalleryCategoryRoute: typeof GalleryCategoryRoute
   GalleryIndexRoute: typeof GalleryIndexRoute
@@ -76,6 +97,13 @@ declare module '@tanstack/react-router' {
       path: '/thank-you'
       fullPath: '/thank-you'
       preLoaderRoute: typeof ThankYouRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -104,6 +132,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PrivacyRoute: PrivacyRoute,
   ThankYouRoute: ThankYouRoute,
   GalleryCategoryRoute: GalleryCategoryRoute,
   GalleryIndexRoute: GalleryIndexRoute,

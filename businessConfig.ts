@@ -10,6 +10,7 @@ export const NEW_CUSTOMER_PRICE = '$40'
 export const DEFAULT_SITE_URL = 'https://www.lasercutsfw.com'
 export const SITE_PATHS = {
   home: '/',
+  privacy: '/privacy',
   sitemap: '/sitemap.xml',
   robots: '/robots.txt',
   ogImage: '/og-image.svg',
